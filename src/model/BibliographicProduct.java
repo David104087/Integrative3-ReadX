@@ -1,5 +1,8 @@
 package model;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public abstract class BibliographicProduct {
 
@@ -111,6 +114,17 @@ public abstract class BibliographicProduct {
 	 */
 	public void setPagesRead(int pagesRead) {
 		this.pagesRead = pagesRead;
+	}
+
+	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Locale locale = new Locale.Builder()
+		.setLanguage("en")
+		.setRegion("US")
+		.build();
+		NumberFormat formatDollars = NumberFormat.getCurrencyInstance(locale);
+		return "Name: " + name + "\nPages: " + pages + "\nPublication Date: " + sdf.format(publicationDate.getTime()) 
+		+ "\nURL: " + url + "\nPrice: " + formatDollars.format(price) + "\nID: " + id + "\n";
 	}
 
 }

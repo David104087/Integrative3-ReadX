@@ -1,9 +1,11 @@
 package model;
+import java.util.Calendar;
 
 public class Book extends BibliographicProduct {
 
 	private String review;
 	private int unitsSold;
+	private Genre genre;
 
 	/**
 	 * 
@@ -44,6 +46,23 @@ public class Book extends BibliographicProduct {
 	 */
 	public void setUnitsSold(int unitsSold) {
 		this.unitsSold = unitsSold;
+	}
+
+	public Genre getGenre() {
+		return this.genre;
+	}
+
+	/**
+	 * 
+	 * @param genre
+	 */
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + "Genre: " + genre.getName() + "\n";
 	}
 
 }

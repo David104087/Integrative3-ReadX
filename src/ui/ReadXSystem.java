@@ -10,21 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Date;
 
 
 public class ReadXSystem {
 
 	private Scanner sc;
 	private ReadX controller;
-	//formato para la conversion de string a Calendar
-	private SimpleDateFormat dateFormat;
 
 
 	public ReadXSystem() {
 		sc = new Scanner(System.in);
 		controller = new ReadX();
-		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	}
 
 	public static void main(String[] args) {
@@ -116,8 +112,14 @@ public class ReadXSystem {
 		name = sc.nextLine();
 		System.out.println("Please enter the user's id: ");
 		id = sc.nextLine();
+
 		msg = controller.registerUser(name, id, userType);
 		System.out.println(msg);
+
+
+		System.out.println("User information: \n" + "User type: " +  (userType == 1 ? "Premium" : "Regular") 
+		+ "\n" + controller.findUserById(id).toString() + "\n");
+
 
 
 	}
@@ -130,58 +132,71 @@ public class ReadXSystem {
 		double price = 0;
 		String id = "";
 		int productType = 0;
+		String msg = "";
+
 		System.out.println("Please enter the type of product: \n(1) Book \n(2) Magazine");
 		productType = validateIntegerInput();
-		if(productType == 1){
-			//String name, int pages, Calendar publicationDate, String url, double price, String id, String review, Genre genre
-			System.out.println("Please enter the book's name: ");
-			name = sc.nextLine();
-			System.out.println("Please enter the book's pages: ");
-			pages = validateIntegerInput();
+		System.out.println("Please enter the product's name: ");
+		name = sc.nextLine();
+		System.out.println("Please enter the product's pages: ");
+		pages = validateIntegerInput();
 
-			//regular expression to verify the date format dd/mm/yyyy
-			Pattern regexDate = Pattern.compile("\\d{2}/\\d{2}/\\d{4}");
-			Calendar datePublication = Calendar.getInstance();
-			boolean validDate = false;
-			
-			do {
-				System.out.println("Please enter the book's publication date (dd/mm/yyyy): ");
-				publicationDate = sc.nextLine();
-	
-				Matcher matcher = regexDate.matcher(publicationDate);//match the date with the regular expression
-	
-				if (matcher.matches()) {//if the date matches the regular expression
-					try {
-						SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-						dateFormat.setLenient(false);//not accept invalid dates like 31/02/2021
-						datePublication.setTime(dateFormat.parse(publicationDate));
-						validDate = true;
-					} catch (Exception e) {
-						System.out.println("Invalid date");
-					}
-				} else {
-					System.out.println("Invalid date format");
+		//regular expression to verify the date format dd/mm/yyyy
+		Pattern regexDate = Pattern.compile("\\d{2}/\\d{2}/\\d{4}");
+		Calendar datePublication = Calendar.getInstance();
+		boolean validDate = false;
+		do {
+			System.out.println("Please enter the book's publication date (dd/mm/yyyy): ");
+			publicationDate = sc.nextLine();
+
+			Matcher matcher = regexDate.matcher(publicationDate);//match the date with the regular expression
+
+			if (matcher.matches()) {//if the date matches the regular expression
+				try {
+					SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+					dateFormat.setLenient(false);//not accept invalid dates like 31/02/2021
+					datePublication.setTime(dateFormat.parse(publicationDate));
+					validDate = true;
+				} catch (Exception e) {
+					System.out.println("Invalid date");
 				}
-			} while (!validDate);
+			} else {
+				System.out.println("Invalid date format");
+			}
+		} while (!validDate);
 
-			System.out.println("Please enter the book's url: ");
-			url = sc.nextLine();
-			System.out.println("Please enter the book's price: ");
-			price = sc.nextDouble();
-			sc.nextLine();
-			
+		System.out.println("Please enter the book's url: ");
+		url = sc.nextLine();
+		System.out.println("Please enter the book's price: ");
+		price = sc.nextDouble();
+		sc.nextLine();
+				
+		if(productType == 1){
+			System.out.println("Please enter the book's review: ");
+			String review = sc.nextLine();
+			System.out.println("Please enter the book's genre \n(1) Sciencie Fiction \n(2) Fantasy \n(3) Historical Novel");
+			int genre = validateIntegerInput();
 
-			registerBook();
+			id = generateBookId();
+
+			msg = controller.registerBook(name, pages, datePublication, url, price, id, review, genre);
 		}
 		else if(productType == 2){
-			registerMagazine();
+			System.out.println("Please enter the periodicity of issue of the magazine: ");
+			String periodicity = sc.nextLine();
+			System.out.println("Please enter the magazine's category \n(1) Varities \n(2) Desing \n(3) Scientific");
+			int category = validateIntegerInput();
+
+			id = generateMagazineId();
+
+			msg = controller.registerMagazine(name, pages, datePublication, url, price, periodicity, id, category);
 		}
 		else{
 			System.out.println("Invalid option");
 		}
 
-		System.out.println("Please enter the product's name: ");
-
+		System.out.println(msg);
+		System.out.println("Product information: \n" + controller.findProductById(id).toString() + "\n");
 
 	}
 
@@ -218,6 +233,24 @@ public class ReadXSystem {
 	public void readingSession() {
 		// TODO - implement ReadXSystem.readingSession
 		throw new UnsupportedOperationException();
+	}
+
+	public String generateBookId() {
+		String hexadecimal = "ABCDEF0123456789";
+		String hexId = "";
+		for (int i = 0; i < 3; i++) {
+			hexId += hexadecimal.charAt((int) (Math.random() * hexadecimal.length()));//generate a random character and add it to the id
+		}
+		return hexId;
+	}
+
+	public String generateMagazineId() {
+		String alfanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String alfId = "";
+		for (int i = 0; i < 3; i++) {
+			alfId += alfanumeric.charAt((int) (Math.random() * alfanumeric.length()));//generate a random character and add it to the id
+		}
+		return alfId;
 	}
 
 }

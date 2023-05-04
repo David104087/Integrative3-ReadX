@@ -5,6 +5,24 @@ public class Magazine extends BibliographicProduct {
 
 	private String periodicity;
 	private int subscriptions;
+	private Category category;
+
+	/**
+	 * 
+	 * @param name
+	 * @param pages
+	 * @param publicationDate
+	 * @param url
+	 * @param price
+	 * @param id
+	 * @param periodicity
+	 * @param category
+	 */
+	public Magazine(String name, int pages, Calendar publicationDate, String url, double price, String id, String periodicity, Category category) {
+		super(name, pages, publicationDate, url, price, id);
+		this.periodicity = periodicity;
+		this.category = category;
+	}
 
 	public String getPeriodicity() {
 		return this.periodicity;
@@ -18,22 +36,6 @@ public class Magazine extends BibliographicProduct {
 		this.periodicity = periodicity;
 	}
 
-	/**
-	 * 
-	 * @param name
-	 * @param pages
-	 * @param publicationDate
-	 * @param url
-	 * @param price
-	 * @param id
-	 * @param preiodicity
-	 * @param category
-	 */
-	public Magazine(String name, int pages, Calendar publicationDate, String url, double price, String id, String preiodicity, Category category) {
-		super(name, pages, publicationDate, url, price, id);
-		this.periodicity = preiodicity;
-		this.category = category;
-	}
 
 	public int getSubscriptions() {
 		return this.subscriptions;
@@ -45,6 +47,24 @@ public class Magazine extends BibliographicProduct {
 	 */
 	public void setSubscriptions(int subscriptions) {//arreglar int en el diagrama
 		this.subscriptions = subscriptions;
+	}
+
+	public Category getCategory() {
+		return this.category;
+	}
+
+	/**
+	 * 
+	 * @param category
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + "Periodicity: " + this.periodicity + "\n"
+		 + "Category: " + category.getName() + "\n";
 	}
 
 }

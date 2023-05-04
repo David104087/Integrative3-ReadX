@@ -1,6 +1,5 @@
 package model;
 import java.util.Calendar;
-import java.util.Calendar;
 import java.util.ArrayList;
 
 public class ReadX {
@@ -40,8 +39,12 @@ public class ReadX {
 	 * @param productId
 	 */
 	public BibliographicProduct findProductById(String productId) {
-		// TODO - implement ReadX.findProductById
-		throw new UnsupportedOperationException();
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i).getId().equals(productId)) {
+				return products.get(i);
+			}
+		}
+		return null;
 	}
 	
 
@@ -61,7 +64,7 @@ public class ReadX {
 	 * @param userTye
 	 */
 	public String registerUser(String name, String id, int userType) {
-		String msg = "User registered successfully";
+		String msg = "User registered successfully!!!";
 		User user = null;
 	
 		if (userType == 1) {
@@ -87,8 +90,24 @@ public class ReadX {
 	 * @param genre
 	 */
 	public String registerBook(String name, int pages, Calendar publicationDate, String url, double price, String id, String review, int genre) {
-		// TODO - implement ReadX.registerBook
-		throw new UnsupportedOperationException();
+		String msg = "Book registered successfully!!!";
+		Genre bookGenre = null;
+
+		if ( genre == 1) {
+			bookGenre = Genre.SCIENCIE_FICTION;
+		} 
+		else if (genre == 2) {
+			bookGenre = Genre.FANTASY;
+		} 
+		else {
+			bookGenre = Genre.HISTORICAL_NOVEL;
+		}
+
+		BibliographicProduct book = new Book(name, pages, publicationDate, url, price, id, review, bookGenre);
+
+		products.add(book);
+
+		return msg;
 	}
 
 	/**
@@ -103,8 +122,25 @@ public class ReadX {
 	 * @param category
 	 */
 	public String registerMagazine(String name, int pages, Calendar publicationDate, String url, double price, String preiodicity, String id, int category) {
-		// TODO - implement ReadX.registerMagazine
-		throw new UnsupportedOperationException();
+		String msg = "Magazine registered successfully!!!";
+		Category magazineCategory  = null;
+
+
+		if ( category == 1) {
+			magazineCategory = Category.VARITIES;
+		} 
+		else if (category == 2) {
+			magazineCategory = Category.DESING;
+		} 
+		else {
+			magazineCategory = Category.SCIENTIFIC;
+		}
+
+		BibliographicProduct magazine = new Magazine(name, pages, publicationDate, url, price, id, preiodicity, magazineCategory);
+
+		products.add(magazine);
+
+		return msg;
 	}
 
 	public void initReadX() {

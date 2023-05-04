@@ -1,5 +1,6 @@
 package model;
 import java.util.Calendar;
+import java.text.SimpleDateFormat;
 
 public abstract class User {
 
@@ -63,5 +64,11 @@ public abstract class User {
 		// TODO - implement User.findMagazineByName
 		throw new UnsupportedOperationException();
 	}
+
+	public String toString() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return "Name: " + name + "\nID: " + id + "\nLinking date: " + sdf.format(linkingDate.getTime()) + "\n";
+	}
+
 
 }
