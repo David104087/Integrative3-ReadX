@@ -3,6 +3,7 @@ import java.util.Calendar;
 
 public class Magazine extends BibliographicProduct {
 
+	private String id;
 	private String periodicity;
 	private int subscriptions;
 	private Category category;
@@ -18,8 +19,9 @@ public class Magazine extends BibliographicProduct {
 	 * @param periodicity
 	 * @param category
 	 */
-	public Magazine(String name, int pages, Calendar publicationDate, String url, double price, String id, String periodicity, Category category) {
-		super(name, pages, publicationDate, url, price, id);
+	public Magazine(String name, int pages, Calendar publicationDate, String url, double price, String periodicity, Category category) {
+		super(name, pages, publicationDate, url, price);
+		this.id = generateId();
 		this.periodicity = periodicity;
 		this.category = category;
 	}
@@ -61,10 +63,34 @@ public class Magazine extends BibliographicProduct {
 		this.category = category;
 	}
 
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@Override
+	public  String generateId() {
+		String alfanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String alfId = "";
+		for (int i = 0; i < 3; i++) {
+			alfId += alfanumeric.charAt((int) (Math.random() * alfanumeric.length()));//generate a random character and add it to the id
+		}
+		return alfId;
+	}
+
+	@Override
+	public String showAttributesToModify() {
+		return super.showAttributesToModify() + "\n(6) Periodicity: " + this.periodicity + 
+		"\n(7) Category: " + this.category.getName() + "\n";
+	}
+
 	@Override
 	public String toString() {
-		return super.toString() + "Periodicity: " + this.periodicity + "\n"
-		 + "Category: " + category.getName() + "\n";
+		return super.toString() + "\nPeriodicity: " + this.periodicity + 
+		"\nCategory: " + this.category.getName() + "\nID: " + id + "\n";
 	}
 
 }

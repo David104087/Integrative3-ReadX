@@ -11,7 +11,6 @@ public abstract class BibliographicProduct {
 	private Calendar publicationDate;
 	private String url;
 	private double price;
-	private String id;
 	private int pagesRead;
 
 	/**
@@ -23,13 +22,12 @@ public abstract class BibliographicProduct {
 	 * @param price
 	 * @param id
 	 */
-	public BibliographicProduct(String name, int pages, Calendar publicationDate, String url, double price, String id) {
+	public BibliographicProduct(String name, int pages, Calendar publicationDate, String url, double price) {
 		this.name = name;
 		this.pages = pages;
 		this.publicationDate = publicationDate;
 		this.url = url;
 		this.price = price;
-		this.id = id;
 	}
 
 	public String getName() {
@@ -92,18 +90,6 @@ public abstract class BibliographicProduct {
 		this.price = price;
 	}
 
-	public String getId() {
-		return this.id;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public int getPagesRead() {
 		return this.pagesRead;
 	}
@@ -116,6 +102,19 @@ public abstract class BibliographicProduct {
 		this.pagesRead = pagesRead;
 	}
 
+	public abstract String generateId();
+
+	public String showAttributesToModify() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		Locale locale = new Locale.Builder()
+		.setLanguage("en")
+		.setRegion("US")
+		.build();
+		NumberFormat formatDollars = NumberFormat.getCurrencyInstance(locale);
+		return "(1) Name: " + name + "\n(2) Pages: " + pages + "\n(3) Publication Date: " + sdf.format(publicationDate.getTime())
+		+ "\n(4) URL: " + url + "\n(5) Price: " + formatDollars.format(price);
+	}
+
 	public String toString() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Locale locale = new Locale.Builder()
@@ -123,8 +122,8 @@ public abstract class BibliographicProduct {
 		.setRegion("US")
 		.build();
 		NumberFormat formatDollars = NumberFormat.getCurrencyInstance(locale);
-		return "Name: " + name + "\nPages: " + pages + "\nPublication Date: " + sdf.format(publicationDate.getTime()) 
-		+ "\nURL: " + url + "\nPrice: " + formatDollars.format(price) + "\nID: " + id + "\n";
+		return "\nName: " + name + "\nPages: " + pages + "\nPublication Date: " + sdf.format(publicationDate.getTime()) 
+		+ "\nURL: " + url + "\nPrice: " + formatDollars.format(price);
 	}
 
 }

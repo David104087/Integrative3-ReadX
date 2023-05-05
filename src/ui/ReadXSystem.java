@@ -97,9 +97,6 @@ public class ReadXSystem {
     }
 
 
-
-
-
 	public void registerUser() {
 		String name = "";
 		String id = "";
@@ -130,7 +127,6 @@ public class ReadXSystem {
 		String publicationDate = "";
 		String url = "";
 		double price = 0;
-		String id = "";
 		int productType = 0;
 		String msg = "";
 
@@ -177,9 +173,7 @@ public class ReadXSystem {
 			System.out.println("Please enter the book's genre \n(1) Sciencie Fiction \n(2) Fantasy \n(3) Historical Novel");
 			int genre = validateIntegerInput();
 
-			id = generateBookId();
-
-			msg = controller.registerBook(name, pages, datePublication, url, price, id, review, genre);
+			msg = controller.registerBook(name, pages, datePublication, url, price, review, genre);
 		}
 		else if(productType == 2){
 			System.out.println("Please enter the periodicity of issue of the magazine: ");
@@ -187,27 +181,37 @@ public class ReadXSystem {
 			System.out.println("Please enter the magazine's category \n(1) Varities \n(2) Desing \n(3) Scientific");
 			int category = validateIntegerInput();
 
-			id = generateMagazineId();
-
-			msg = controller.registerMagazine(name, pages, datePublication, url, price, periodicity, id, category);
+			msg = controller.registerMagazine(name, pages, datePublication, url, price, periodicity, category);
 		}
 		else{
 			System.out.println("Invalid option");
 		}
 
 		System.out.println(msg);
-		System.out.println("Product information: \n" + controller.findProductById(id).toString() + "\n");
-
 	}
 
 	public void initReadX() {
-		// TODO - implement ReadXSystem.initReadX
-		throw new UnsupportedOperationException();
+		controller.initReadX();
 	}
 
 	public void modifyProduct() {
-		// TODO - implement ReadXSystem.modifyProduct
-		throw new UnsupportedOperationException();
+		String id = "";
+		int dataToModify = 0;
+		String newStatus = "";
+		String msg = "";
+
+		System.out.println("Please enter the product's id: ");
+		id = sc.nextLine();
+
+		System.out.println("Product information: \n" + controller.findProductById(id).showAttributesToModify());
+		System.out.print("Please enter the number of the attribute you want to modify: ");
+		dataToModify = validateIntegerInput();
+		System.out.println("Please enter the new value: ");
+		newStatus = sc.nextLine();
+
+		msg = controller.modifyProduct(id, dataToModify, newStatus);
+		System.out.println(msg);//ARREGLAR LO DEL GENRE Y CATEGORY
+		System.out.println("Product information: \n" + controller.findProductById(id).toString() + "\n");
 	}
 
 	public void deleteProduct() {
@@ -233,24 +237,6 @@ public class ReadXSystem {
 	public void readingSession() {
 		// TODO - implement ReadXSystem.readingSession
 		throw new UnsupportedOperationException();
-	}
-
-	public String generateBookId() {
-		String hexadecimal = "ABCDEF0123456789";
-		String hexId = "";
-		for (int i = 0; i < 3; i++) {
-			hexId += hexadecimal.charAt((int) (Math.random() * hexadecimal.length()));//generate a random character and add it to the id
-		}
-		return hexId;
-	}
-
-	public String generateMagazineId() {
-		String alfanumeric = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		String alfId = "";
-		for (int i = 0; i < 3; i++) {
-			alfId += alfanumeric.charAt((int) (Math.random() * alfanumeric.length()));//generate a random character and add it to the id
-		}
-		return alfId;
 	}
 
 }
