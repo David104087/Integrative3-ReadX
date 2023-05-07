@@ -9,8 +9,8 @@ public class RegularUser extends User {
 	 * @param id
 	 * @param linkingDate
 	 */
-	public RegularUser(String name, String id, Calendar linkingDate) {
-		super(name, id, linkingDate);
+	public RegularUser(String name, String id, Calendar linkingDate, double balance) {
+		super(name, id, linkingDate, balance);
 	}
 
 }

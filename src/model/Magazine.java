@@ -84,7 +84,8 @@ public class Magazine extends BibliographicProduct {
 	@Override
 	public String showAttributesToModify() {
 		return super.showAttributesToModify() + "\n(6) Periodicity: " + this.periodicity + 
-		"\n(7) Category: " + this.category.getName() + "\n";
+		"\n(7) Category: " + this.category.getName() + "\n"
+		+ "   Other categories: " + "\n    (1) Varities \n    (2) Desing \n    (3) Scientific";
 	}
 
 	@Override

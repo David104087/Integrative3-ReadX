@@ -9,8 +9,8 @@ public class PremiumUser extends User {
 	 * @param id
 	 * @param linkingDate
 	 */
-	public PremiumUser(String name, String id, Calendar linkingDate) {
-		super(name, id, linkingDate);
+	public PremiumUser(String name, String id, Calendar linkingDate, double balance) {
+		super(name, id, linkingDate, balance);
 	}
 
 }

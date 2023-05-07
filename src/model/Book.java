@@ -47,7 +47,7 @@ public class Book extends BibliographicProduct {
 	 * @param unitsSold
 	 */
 	public void setUnitsSold(int unitsSold) {
-		this.unitsSold = unitsSold;
+		this.unitsSold += unitsSold;
 	}
 
 	public Genre getGenre() {
@@ -83,7 +83,7 @@ public class Book extends BibliographicProduct {
 	@Override
 	public String showAttributesToModify() {
 		return super.showAttributesToModify() + "\n(6) Review: " + this.review + "\n" 
-		+ "(7) Genre: " + this.genre.getName() + "\n";
+		+ "(7) Genre: " + this.genre.getName() + "\n" + "   Other genres:" + "\n    (1) Sciencie Fiction \n    (2) Fantasy \n    (3) Historical Novel";
 	}
 
 	@Override

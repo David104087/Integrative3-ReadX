@@ -109,8 +109,10 @@ public class ReadXSystem {
 		name = sc.nextLine();
 		System.out.println("Please enter the user's id: ");
 		id = sc.nextLine();
+		System.out.println("Please enter the user's balance: ");
+		double balance = sc.nextDouble();
 
-		msg = controller.registerUser(name, id, userType);
+		msg = controller.registerUser(name, id, balance, userType);
 		System.out.println(msg);
 
 
@@ -142,7 +144,7 @@ public class ReadXSystem {
 		Calendar datePublication = Calendar.getInstance();
 		boolean validDate = false;
 		do {
-			System.out.println("Please enter the book's publication date (dd/mm/yyyy): ");
+			System.out.println("Please enter the product's publication date (dd/mm/yyyy): ");
 			publicationDate = sc.nextLine();
 
 			Matcher matcher = regexDate.matcher(publicationDate);//match the date with the regular expression
@@ -161,9 +163,9 @@ public class ReadXSystem {
 			}
 		} while (!validDate);
 
-		System.out.println("Please enter the book's url: ");
+		System.out.println("Please enter the product's url: ");
 		url = sc.nextLine();
-		System.out.println("Please enter the book's price: ");
+		System.out.println("Please enter the product's price: ");
 		price = sc.nextDouble();
 		sc.nextLine();
 				
@@ -208,20 +210,51 @@ public class ReadXSystem {
 		dataToModify = validateIntegerInput();
 		System.out.println("Please enter the new value: ");
 		newStatus = sc.nextLine();
-
 		msg = controller.modifyProduct(id, dataToModify, newStatus);
-		System.out.println(msg);//ARREGLAR LO DEL GENRE Y CATEGORY
+		System.out.println(msg);
 		System.out.println("Product information: \n" + controller.findProductById(id).toString() + "\n");
 	}
 
 	public void deleteProduct() {
-		// TODO - implement ReadXSystem.deleteProduct
-		throw new UnsupportedOperationException();
+		String id = "";
+		String msg = "";
+
+		System.out.println("Please enter the product's id: ");
+		id = sc.nextLine();
+
+		msg = controller.deleteProduct(id);
+		System.out.println(msg);
 	}
 
 	public void buyBook() {
-		// TODO - implement ReadXSystem.buyBook
-		throw new UnsupportedOperationException();
+		String userId = "";
+		String bookName = "";
+		String msg = "";
+		int option = 0;
+
+		System.out.println("Please enter the user's id: ");
+		userId = sc.nextLine();
+
+		System.out.println("Please enter the book's name: ");
+		bookName = sc.nextLine();
+
+		if (controller.findProductByName(bookName) == null) {
+			System.out.println("The book does not exist");
+			return;//return to the main menu
+		}
+
+		//Terminar lo de la factura y el resto
+
+		System.out.println("Book information: \n" + controller.findProductByName(bookName).toString() + "\n");
+		System.out.println("Want to buy this book? \n(1) Yes \n(2) No");
+		option = validateIntegerInput();
+
+		if (option == 1) {
+			msg = controller.buyBook(userId, bookName);
+			System.out.println(msg);
+		} else {
+			System.out.println("The book was not purchased");
+		}
 	}
 
 	public void suscribeToAMagazine() {

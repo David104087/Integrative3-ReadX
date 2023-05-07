@@ -63,8 +63,18 @@ public class ReadX {
 	 * @param productName
 	 */
 	public BibliographicProduct findProductByName(String productName) {
-		// TODO - implement ReadX.findProductByName
-		throw new UnsupportedOperationException();
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				if ( ( (Magazine) products.get(i) ).getName().equals(productName)) {
+					return products.get(i);
+				}
+			} else {
+				if ( ( (Book) products.get(i) ).getName().equals(productName)) {
+					return products.get(i);
+				}
+			} 
+		}
+		return null;
 	}
 
 	/**
@@ -73,14 +83,14 @@ public class ReadX {
 	 * @param id
 	 * @param userTye
 	 */
-	public String registerUser(String name, String id, int userType) {
+	public String registerUser(String name, String id, double balance, int userType) {
 		String msg = "User registered successfully!!!";
 		User user = null;
 	
 		if (userType == 1) {
-			user = new PremiumUser(name, id, Calendar.getInstance());
+			user = new PremiumUser(name, id, Calendar.getInstance(), balance);
 		} else {
-			user = new RegularUser(name, id, Calendar.getInstance());
+			user = new RegularUser(name, id, Calendar.getInstance(), balance);
 		}
 		users.add(user);
 	
@@ -170,17 +180,24 @@ public class ReadX {
 	 */
 	public String modifyProduct(String productId, int dataToModify, String newStaus) {
 		String msg = "";
+		BibliographicProduct product = findProductById(productId);
+
 		
 		switch(dataToModify) {
 			case 1:
-				findProductById(productId).setName(newStaus);
+
+				product.setName(newStaus);
 				msg = "Name modified successfully!!!";
 				break;
+
 			case 2:
-				findProductById(productId).setPages(Integer.parseInt(newStaus));//convert the string to integer
+
+				product.setPages(Integer.parseInt(newStaus));//convert the string to integer
 				msg = "Pages modified successfully!!!";
 				break;
+
 			case 3:
+
 				Pattern regexDate = Pattern.compile("\\d{2}/\\d{2}/\\d{4}");//regular expression to verify the date format dd/mm/yyyy
 				Calendar newDatePublication = Calendar.getInstance();//create a new calendar to store the new date
 				Matcher matcher = regexDate.matcher(newStaus);//match the date with the regular expression
@@ -190,7 +207,7 @@ public class ReadX {
 						SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 						dateFormat.setLenient(false);//not accept invalid dates like 31/02/2021
 						newDatePublication.setTime(dateFormat.parse(newStaus));//convert the string to date and set the new date
-						findProductById(productId).setPublicationDate(newDatePublication);//set the new date to the product
+						product.setPublicationDate(newDatePublication);//set the new date to the product
 						msg = "Publication date modified successfully!!!";
 					} catch (Exception e) {//catch the exception if the date is invalid
 						msg = "Invalid date";
@@ -199,31 +216,65 @@ public class ReadX {
 					msg ="Invalid date format";
 				}
 				break;
+
 			case 4:
-				findProductById(productId).setUrl(newStaus);
+
+				product.setUrl(newStaus);
 				msg = "URL modified successfully!!!";
 				break;
+
 			case 5:
-				findProductById(productId).setPrice(Double.parseDouble(newStaus));
+
+				product.setPrice(Double.parseDouble(newStaus));
 				msg = "Price modified successfully!!!";
 				break;
+
 			case 6:
-				if (findProductById(productId) instanceof Book) {
-					( (Book)findProductById(productId) ).setReview(newStaus);	
+
+				if (product instanceof Book) {
+					( (Book) product ).setReview(newStaus);	
 					msg = "Review modified successfully!!!";
 				} else {
-					( (Magazine)findProductById(productId) ).setPeriodicity(newStaus);
+					( (Magazine) product ).setPeriodicity(newStaus);
 					msg = "Periodicity modified successfully!!!";
 				}
 				break;
+
 			case 7:
-				if (findProductById(productId) instanceof Book) {
-					( (Book)findProductById(productId) ).setGenre(Genre.valueOf(newStaus));//valueOf convert the string to enum
-					msg = "Genre modified successfully!!!";
+
+				if (newStaus.equals("1") || newStaus.equals("2") || newStaus.equals("3")) {
+					Genre bookGenre = null;
+					Category magazineCategory = null;
+
+					if (newStaus.equals("1" ) && product instanceof Book) {
+						bookGenre = Genre.SCIENCIE_FICTION;
+					} else if (newStaus.equals("1") && product instanceof Magazine){
+						magazineCategory = Category.VARITIES;
+					}
+					if (newStaus.equals("2") && product instanceof Book) {
+						bookGenre = Genre.FANTASY;
+					} else if (newStaus.equals("2") && product instanceof Magazine){
+						magazineCategory = Category.DESING;
+					}
+					if (newStaus.equals("3") && product instanceof Book){
+						bookGenre = Genre.HISTORICAL_NOVEL;
+					} else if (newStaus.equals("3") && product instanceof Magazine){
+						magazineCategory = Category.SCIENTIFIC;
+					}
+
+					if (product instanceof Book) {
+						( (Book) product ).setGenre(bookGenre);
+						msg = "Genre modified successfully!!!";
+					} else {
+						( (Magazine) product ).setCategory(magazineCategory);
+						msg = "Category modified successfully!!!";
+					}
+
 				} else {
-					( (Magazine)findProductById(productId) ).setCategory(Category.valueOf(newStaus));
-					msg = "Category modified successfully!!!";
+					msg = "Invalid option";
 				}
+
+
 				break;
 			default:
 				msg = "Invalid option";
@@ -238,9 +289,34 @@ public class ReadX {
 	 * @param productId
 	 */
 	public String deleteProduct(String productId) {
-		// TODO - implement ReadX.deleteProduct
-		throw new UnsupportedOperationException();
+		String msg = "";
+		boolean productFound = false;
+	
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				if (((Magazine) products.get(i)).getId().equals(productId)) {
+					products.remove(i);
+					msg = "Magazine deleted successfully!!!";
+					productFound = true;
+					break;// get out of the loop after deleting the product
+				}
+			} else if (products.get(i) instanceof Book) {
+				if (((Book) products.get(i)).getId().equals(productId)) {
+					products.remove(i);
+					msg = "Book deleted successfully!!!";
+					productFound = true;
+					break;
+				}
+			}
+		}
+	
+		if (!productFound) {
+			msg = "Product not found";
+		}
+	
+		return msg;
 	}
+	
 
 	/**
 	 * 
@@ -248,8 +324,29 @@ public class ReadX {
 	 * @param bookName
 	 */
 	public String buyBook(String userId, String bookName) {
-		// TODO - implement ReadX.buyBook
-		throw new UnsupportedOperationException();
+		String msg = "";
+
+		Book book = (Book) findProductByName(bookName);
+		User user = findUserById(userId);
+
+		if (book != null) {//if the book exists
+			if (user != null) {//if the user exists
+				if (user.getBalance() >= book.getPrice()) {//if the user has enough money
+					user.addProduct(book);
+					user.setBalance(user.getBalance() - book.getPrice());//subtract the price of the book to the user's balance
+					msg = "Book purchased successfully!!!";
+					book.setUnitsSold(1);
+				} else {
+					msg = "Insufficient funds";
+				}
+			} else {
+				msg = "User not found";
+			}
+		} else {
+			msg = "Book not found";
+		}
+		
+		return msg;
 	}
 
 	/**
