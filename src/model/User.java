@@ -1,7 +1,8 @@
 package model;
 import java.util.Calendar;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 
 public abstract class User {
@@ -11,6 +12,7 @@ public abstract class User {
 	private Calendar linkingDate;
 	private double balance;
 	private ArrayList<BibliographicProduct> products;
+	private ArrayList<Invoice> invoices;
 
 	/**
 	 * 
@@ -23,6 +25,8 @@ public abstract class User {
 		this.id = id;
 		this.linkingDate = linkingDate;
 		this.balance = balance;
+		products = new ArrayList<BibliographicProduct>();
+		invoices = new ArrayList<Invoice>();
 	}
 
 	public String getName() {
@@ -77,24 +81,57 @@ public abstract class User {
 	 * 
 	 * @param product
 	 */
-	public void addProduct(BibliographicProduct product) {
+	public void addProduct(BibliographicProduct product, Invoice invoice) {
 		products.add(product);
+		invoices.add(invoice);
 	}
-
+	
 
 	/**
 	 * 
 	 * @param name
 	 */
-	public Magazine findMagazineByName(String name) {
-		// TODO - implement User.findMagazineByName
-		throw new UnsupportedOperationException();
+	public Magazine findMagazineById(String id) {
+		for (BibliographicProduct product : products) {
+			if (product instanceof Magazine) {
+				if (product.getName().equals(name)) {
+					return (Magazine) product;
+				}
+			}
+		}
+		return null;
 	}
 
 	public String toString() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		return "Name: " + name + "\nID: " + id + "\nLinking date: " + sdf.format(linkingDate.getTime()) + "\n";
+		Locale locale = new Locale.Builder()
+		.setLanguage("en")
+		.setRegion("US")
+		.build();	
+		NumberFormat formatDollars = NumberFormat.getCurrencyInstance(locale);	
+		return "Name: " + this.name + "\nID: " + this.id + "\nLinking date: " + this.linkingDate.getTime() + "\n"
+				+ "Balance: " + formatDollars.format(this.balance);
 	}
 
+	public ArrayList<Invoice> getInvoices() {
+		return invoices;
+	}
 
+	public String unsubscribeOfAMagazine(String magazineId) {
+		String msg = "";
+		boolean isFound = false;
+		for (BibliographicProduct product : products) {
+			if (product instanceof Magazine) {
+				if (( (Magazine) product).getId().equals(magazineId)) {
+					products.remove(product);
+					msg = "The user " + this.name + " has been unsubscribed of the magazine " + magazineId;
+					isFound = true;
+					break;
+				}
+			}
+		}
+		return msg;
+	}
+
+	
+	
 }

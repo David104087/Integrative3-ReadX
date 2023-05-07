@@ -1,43 +1,62 @@
 package model;
 import java.util.Calendar;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Invoice {
 
+	private String productName;
+	private double price;
 	private Calendar date;
-	private double amount;
 
 	/**
 	 * 
 	 * @param date
 	 * @param amount
 	 */
-	public Invoice(Calendar date, double amount) {
-		// TODO - implement Invoice.Invoice
-		throw new UnsupportedOperationException();
+	public Invoice(String productName, double price, Calendar date) {
+		this.productName = productName;
+		this.price = price;
+		this.date = date;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public Calendar getDate() {
-		return this.date;
+		return date;
 	}
 
-	/**
-	 * 
-	 * @param date
-	 */
 	public void setDate(Calendar date) {
 		this.date = date;
 	}
 
-	public double getAmount() {
-		return this.amount;
+	public String toString() {
+		Locale locale = new Locale.Builder()
+		.setLanguage("en")
+		.setRegion("US")
+		.build();	
+		NumberFormat formatDollars = NumberFormat.getCurrencyInstance(locale);	
+		return "-----------Invoice------------\n" +
+				"Product: " + this.productName + "\n" +
+				"Price: " + formatDollars.format(this.price) + "\n" +
+				"Date: " + this.date.getTime() + "\n" +
+				"-----------------------\n";
 	}
 
-	/**
-	 * 
-	 * @param amount
-	 */
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
+
 
 }

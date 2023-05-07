@@ -243,8 +243,6 @@ public class ReadXSystem {
 			return;//return to the main menu
 		}
 
-		//Terminar lo de la factura y el resto
-
 		System.out.println("Book information: \n" + controller.findProductByName(bookName).toString() + "\n");
 		System.out.println("Want to buy this book? \n(1) Yes \n(2) No");
 		option = validateIntegerInput();
@@ -258,13 +256,73 @@ public class ReadXSystem {
 	}
 
 	public void suscribeToAMagazine() {
-		// TODO - implement ReadXSystem.suscribeToAMagazine
-		throw new UnsupportedOperationException();
+		String userId = "";
+		String magazineId = "";
+		String msg = "";
+		int option = 0;
+
+		System.out.println("Please enter the user's id: ");
+		userId = sc.nextLine();
+
+		System.out.println("Please enter the magazine's name: ");
+		magazineId = sc.nextLine();
+
+		if (controller.findProductByName(magazineId) == null) {
+			System.out.println("The magazine does not exist");
+			return;//return to the main menu
+		}
+
+		System.out.println("Magazine information: \n" + controller.findProductByName(magazineId).toString() + "\n");
+		System.out.println("Want to subscribe to this magazine? \n(1) Yes \n(2) No");
+		option = validateIntegerInput();
+
+		if (option == 1) {
+			msg = controller.subscribeToAMagazine(userId, magazineId);
+			System.out.println(msg);
+		} else {
+			System.out.println("The magazine was not subscribed");
+		}
 	}
 
 	public void unsubscribeOfAMagazine() {
-		// TODO - implement ReadXSystem.unsubscribeOfAMagazine
-		throw new UnsupportedOperationException();
+		String userId = "";
+		String magazineId = "";
+		String msg = "";
+		int option = 0;
+
+		System.out.println("Please enter the user's id: ");
+		userId = sc.nextLine();
+
+		System.out.println("Please enter the magazine's id: ");
+		magazineId = sc.nextLine();
+
+		try {
+			if (controller.findUserById(userId).findMagazineById(magazineId) == null) {
+				System.out.println("The user " + userId + " is not subscribed to the magazine " + magazineId);
+				return;//return to the main menu
+			}
+		} catch (NullPointerException e) {
+			System.out.println("The user does not exist");
+			return;//return to the main menu
+		}
+
+		
+		if (controller.findProductById(magazineId) == null) {
+			System.out.println("The magazine does not exist");
+			return;//return to the main menu
+		}
+		
+		System.out.println("Magazine information: \n" + controller.findProductById(magazineId).toString() + "\n");
+		System.out.println("Want to unsubscribe to this magazine? \n(1) Yes \n(2) No");
+		option = validateIntegerInput();
+		
+
+		if (option == 1) {
+			msg = controller.unsubscribeOfAMagazine(userId, magazineId);
+			System.out.println(msg);
+		} else {
+			System.out.println("The magazine was not unsubscribed");
+		}
 	}
 
 	public void readingSession() {

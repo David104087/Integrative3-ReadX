@@ -48,7 +48,7 @@ public class Magazine extends BibliographicProduct {
 	 * @param subscriptions
 	 */
 	public void setSubscriptions(int subscriptions) {//arreglar int en el diagrama
-		this.subscriptions = subscriptions;
+		this.subscriptions += subscriptions;
 	}
 
 	public Category getCategory() {
@@ -91,7 +91,7 @@ public class Magazine extends BibliographicProduct {
 	@Override
 	public String toString() {
 		return super.toString() + "\nPeriodicity: " + this.periodicity + 
-		"\nCategory: " + this.category.getName() + "\nID: " + id + "\n";
+		"\nCategory: " + this.category.getName() + "\nID: " + this.id + "\n";
 	}
 
 }

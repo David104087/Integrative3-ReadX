@@ -127,7 +127,7 @@ public class ReadX {
 
 		products.add(book);
 
-		msg += "\nBook information: " + book.toString();
+		msg += "\nBook information:\n " + book.toString();
 
 		return msg;
 	}
@@ -331,14 +331,26 @@ public class ReadX {
 
 		if (book != null) {//if the book exists
 			if (user != null) {//if the user exists
-				if (user.getBalance() >= book.getPrice()) {//if the user has enough money
-					user.addProduct(book);
-					user.setBalance(user.getBalance() - book.getPrice());//subtract the price of the book to the user's balance
-					msg = "Book purchased successfully!!!";
-					book.setUnitsSold(1);
+				if (user instanceof PremiumUser || ( (RegularUser)user ).getBooksPurchased() < 5) { //if the user is premium or regular and has not purchased 5 books
+					if (user.getBalance() >= book.getPrice()) {//if the user has enough money
+						Invoice invoice = new Invoice(book.getName(), book.getPrice(), Calendar.getInstance());//create a new invoice
+						user.addProduct(book, invoice);//add the book to the user's products
+						user.setBalance(user.getBalance() - book.getPrice());//subtract the price of the book to the user's balance
+						msg = "Book purchased successfully!!!" + "\n" + "Your new balance is: " + user.getBalance()
+						+ "\n" + invoice.toString();
+						book.setUnitsSold(1);
+
+						if (user instanceof RegularUser) {
+							( (RegularUser) user ).setBooksPurchased(1);
+						}
+
+					} else {
+						msg = "Insufficient funds";
+					}
 				} else {
-					msg = "Insufficient funds";
+					msg = "\n You have already purchased 5 books, upgrade to premium to buy more books!!! \n";
 				}
+
 			} else {
 				msg = "User not found";
 			}
@@ -354,9 +366,42 @@ public class ReadX {
 	 * @param userId
 	 * @param magazineName
 	 */
-	public String suscribeToAMagazine(String userId, String magazineName) {
-		// TODO - implement ReadX.suscribeToAMagazine
-		throw new UnsupportedOperationException();
+	public String subscribeToAMagazine(String userId, String magazineName) {
+		String msg = "";
+
+		Magazine magazine = (Magazine) findProductByName(magazineName);
+		User user = findUserById(userId);
+
+		if (magazine != null) {//if the magazine exists
+			if (user != null) {//if the user exists
+				if (user instanceof PremiumUser || ( (RegularUser)user ).getMagazinesSuscribed() < 2) {//if the user is premium or regular and has not suscribed to 5 magazines
+					if (user.getBalance() >= magazine.getPrice()) {//if the user has enough money
+						Invoice invoice = new Invoice(magazine.getName(), magazine.getPrice(), Calendar.getInstance());//create a new invoice
+						user.addProduct(magazine, invoice);//add the magazine to the user's products
+						user.setBalance(user.getBalance() - magazine.getPrice());//subtract the price of the magazine to the user's balance
+						msg = "Magazine suscribed successfully!!!" + "\n" + "Your new balance is: " + user.getBalance()
+						+ "\n" + invoice.toString();
+						magazine.setSubscriptions(1);
+
+						if (user instanceof RegularUser) {
+							( (RegularUser) user ).setMagazinesSuscribed(1);
+						}
+
+					} else {
+						msg = "Insufficient funds";
+					}
+				} else {
+					msg = "\n You have already suscribed to 5 magazines, upgrade to premium to suscribe to more magazines!!! \n";
+				}
+
+			} else {
+				msg = "User not found";
+			}
+		} else {
+			msg = "Magazine not found";
+		}
+		
+		return msg;
 	}
 
 	/**
@@ -364,9 +409,11 @@ public class ReadX {
 	 * @param userId
 	 * @param magazineName
 	 */
-	public String unsuscribeOfAMagazine(String userId, int magazineName) {
-		// TODO - implement ReadX.unsuscribeOfAMagazine
-		throw new UnsupportedOperationException();
+	public String unsubscribeOfAMagazine(String userId, String magazineiD) {
+
+		String msg = findUserById(userId).unsubscribeOfAMagazine(magazineiD);
+
+		return msg;	
 	}
 
 	public void displayAdvertising() {
