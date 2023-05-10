@@ -102,6 +102,21 @@ public abstract class User {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 */
+	public Book findBookById(String id) {
+		for (BibliographicProduct product : products) {
+			if (product instanceof Book) {
+				if (product.getName().equals(name)) {
+					return (Book) product;
+				}
+			}
+		}
+		return null;
+	}
+
 	public String toString() {
 		Locale locale = new Locale.Builder()
 		.setLanguage("en")

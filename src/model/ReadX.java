@@ -93,6 +93,8 @@ public class ReadX {
 			user = new RegularUser(name, id, Calendar.getInstance(), balance);
 		}
 		users.add(user);
+
+		msg += "\nUser information:\n " + user.toString() + "\n";
 	
 		return msg;
 	}
@@ -109,7 +111,7 @@ public class ReadX {
 	 * @param review
 	 * @param genre
 	 */
-	public String registerBook(String name, int pages, Calendar newStaus, String url, double price, String review, int genre) {
+	public String registerBook(String name, int pages, Calendar publicationDate, String url, double price, String review, int genre) {
 		String msg = "Book registered successfully!!!";
 		Genre bookGenre = null;
 
@@ -123,7 +125,7 @@ public class ReadX {
 			bookGenre = Genre.HISTORICAL_NOVEL;
 		}
 
-		BibliographicProduct book = new Book(name, pages, newStaus, url, price, review, bookGenre);
+		BibliographicProduct book = new Book(name, pages, publicationDate, url, price, review, bookGenre);
 
 		products.add(book);
 
@@ -143,7 +145,7 @@ public class ReadX {
 	 * @param id
 	 * @param category
 	 */
-	public String registerMagazine(String name, int pages, Calendar newStaus, String url, double price, String preiodicity, int category) {
+	public String registerMagazine(String name, int pages, Calendar publicationDate, String url, double price, String preiodicity, int category) {
 		String msg = "Magazine registered successfully!!!";
 		Category magazineCategory  = null;
 
@@ -157,7 +159,7 @@ public class ReadX {
 			magazineCategory = Category.SCIENTIFIC;
 		}
 
-		BibliographicProduct magazine = new Magazine(name, pages, newStaus, url, price, preiodicity, magazineCategory);
+		BibliographicProduct magazine = new Magazine(name, pages, publicationDate, url, price, preiodicity, magazineCategory);
 
 		products.add(magazine);
 
@@ -167,9 +169,39 @@ public class ReadX {
 		return msg;
 	}
 
-	public void initReadX() {
-		// TODO - implement ReadX.initReadX
-		throw new UnsupportedOperationException();
+	public String initReadX() {
+
+		String msg = "";
+
+		msg += "------------------\n"
+				+ "Users:\n"
+				+ "------------------\n";
+
+		//register 1 premium user and 1 regular user
+		for (int i = 0; i < 2; i++) {
+			msg += "\n(" + (i+1) + ") " + registerUser("User " + i, "id" + i, 100.0, 1);
+		}
+
+		msg += "\n------------------\n"
+				+ "Books:\n"
+				+ "------------------\n";
+
+		//register 3 books by genre 
+		for (int i = 0; i < 3; i++) {
+			msg += "\n(" + (i+1) + ") " + registerBook("Book " + i, 10, Calendar.getInstance(), "www.tlotr.com", 30.0, "Very good", i);
+		}
+
+		msg += "\n------------------\n"
+				+ "Magazines:\n"
+				+ "------------------\n";
+
+		//register 3 magazines by category
+		for (int i = 0; i < 3; i++) {
+			msg += "\n(" + (i+1) + ") " + registerMagazine("Magazine " + i, 5, Calendar.getInstance(), "www.hello.com", 5.0, "Weekly", i);
+		}
+
+
+		return msg;
 	}
 
 	/**
@@ -329,6 +361,7 @@ public class ReadX {
 		Book book = (Book) findProductByName(bookName);
 		User user = findUserById(userId);
 
+		//copilot una pregunta, por qué cuando compro un libro para los users precreados, no lo hace el programa? - por que 
 		if (book != null) {//if the book exists
 			if (user != null) {//if the user exists
 				if (user instanceof PremiumUser || ( (RegularUser)user ).getBooksPurchased() < 5) { //if the user is premium or regular and has not purchased 5 books
@@ -336,7 +369,7 @@ public class ReadX {
 						Invoice invoice = new Invoice(book.getName(), book.getPrice(), Calendar.getInstance());//create a new invoice
 						user.addProduct(book, invoice);//add the book to the user's products
 						user.setBalance(user.getBalance() - book.getPrice());//subtract the price of the book to the user's balance
-						msg = "Book purchased successfully!!!" + "\n" + "Your new balance is: " + user.getBalance()
+						msg = "Book " + book.getId() + " purchased successfully!!!" + "\n" + "Your new balance is: $ " + user.getBalance()
 						+ "\n" + invoice.toString();
 						book.setUnitsSold(1);
 
@@ -379,7 +412,7 @@ public class ReadX {
 						Invoice invoice = new Invoice(magazine.getName(), magazine.getPrice(), Calendar.getInstance());//create a new invoice
 						user.addProduct(magazine, invoice);//add the magazine to the user's products
 						user.setBalance(user.getBalance() - magazine.getPrice());//subtract the price of the magazine to the user's balance
-						msg = "Magazine suscribed successfully!!!" + "\n" + "Your new balance is: " + user.getBalance()
+						msg = "Magazine " + magazine.getId() + " suscribed successfully!!!" + "\n" + "Your new balance is: $ " + user.getBalance()
 						+ "\n" + invoice.toString();
 						magazine.setSubscriptions(1);
 
@@ -421,9 +454,38 @@ public class ReadX {
 		throw new UnsupportedOperationException();
 	}
 
-	public String readingSession() {
-		// TODO - implement ReadX.readingSession
-		throw new UnsupportedOperationException();
+	public String[] readingSession(String userId, String productId) {
+		
+		BibliographicProduct book = findProductById(productId);
+
+		return book.getSheets();
+
 	}
+
+	// public String[] readingSession2(String userId, String productId, String option) {
+	// 	String content = "";
+
+	// 	BibliographicProduct book = findProductById(productId);
+
+	// 	if (option.equals("s")) {
+	// 		String[] sheets = book.getSheets();
+	// 		int currentPage = 0;
+
+	// 		while(true) {
+	// 		content = "Page " + (currentPage + 1) + " of " + sheets.length + "\n" + sheets[currentPage];
+
+			
+
+	// 		}
+	// 	} 
+
+
+
+
+		
+
+	// 	return content;
+
+	// }
 
 }

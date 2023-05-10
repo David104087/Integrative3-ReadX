@@ -39,11 +39,14 @@ public class ReadXSystem {
 	}
 
 	public void menu() {
-		System.out.println("Welcome to ReadX, please select an option: \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Reading session \n(9) Exit");
+		System.out.println("Welcome to ReadX, please select an option:  \n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Reading session \n(9) Exit");
 	}
 
 	public void executeOption(int option){
 		switch(option){
+			case 0: 
+				initReadX(); 
+				break;
 			case 1: 
 				registerUser(); 
 				break; 
@@ -193,7 +196,8 @@ public class ReadXSystem {
 	}
 
 	public void initReadX() {
-		controller.initReadX();
+		String msg = controller.initReadX();
+		System.out.println(msg);
 	}
 
 	public void modifyProduct() {
@@ -231,28 +235,36 @@ public class ReadXSystem {
 		String bookName = "";
 		String msg = "";
 		int option = 0;
+		int decision = 1;
 
 		System.out.println("Please enter the user's id: ");
 		userId = sc.nextLine();
 
-		System.out.println("Please enter the book's name: ");
-		bookName = sc.nextLine();
+		do {
+			System.out.println("Please enter the book's name: ");
+			bookName = sc.nextLine();
+	
+			if (controller.findProductByName(bookName) == null) {
+				System.out.println("The book does not exist");
+				return;//return to the main menu
+			}
+	
+			System.out.println("Book information: \n" + controller.findProductByName(bookName).toString() + "\n");
+			System.out.println("Want to buy this book? \n(1) Yes \n(2) No");
+			option = validateIntegerInput();
+	
+			if (option == 1) {
+				msg = controller.buyBook(userId, bookName);
+				System.out.println(msg);
+			} else {
+				System.out.println("The book was not purchased");
+			}
 
-		if (controller.findProductByName(bookName) == null) {
-			System.out.println("The book does not exist");
-			return;//return to the main menu
-		}
+			System.out.println("Want to buy another book? \n(1) Yes \n(2) No");
+			decision = validateIntegerInput();
+			
+		} while (decision == 1);
 
-		System.out.println("Book information: \n" + controller.findProductByName(bookName).toString() + "\n");
-		System.out.println("Want to buy this book? \n(1) Yes \n(2) No");
-		option = validateIntegerInput();
-
-		if (option == 1) {
-			msg = controller.buyBook(userId, bookName);
-			System.out.println(msg);
-		} else {
-			System.out.println("The book was not purchased");
-		}
 	}
 
 	public void suscribeToAMagazine() {
@@ -260,28 +272,37 @@ public class ReadXSystem {
 		String magazineId = "";
 		String msg = "";
 		int option = 0;
+		int decision = 1;
 
 		System.out.println("Please enter the user's id: ");
 		userId = sc.nextLine();
 
-		System.out.println("Please enter the magazine's name: ");
-		magazineId = sc.nextLine();
+		do {
+			System.out.println("Please enter the magazine's name: ");
+			magazineId = sc.nextLine();
 
-		if (controller.findProductByName(magazineId) == null) {
-			System.out.println("The magazine does not exist");
-			return;//return to the main menu
-		}
+			if (controller.findProductByName(magazineId) == null) {
+				System.out.println("The magazine does not exist");
+				return;//return to the main menu
+			}
 
-		System.out.println("Magazine information: \n" + controller.findProductByName(magazineId).toString() + "\n");
-		System.out.println("Want to subscribe to this magazine? \n(1) Yes \n(2) No");
-		option = validateIntegerInput();
+			System.out.println("Magazine information: \n" + controller.findProductByName(magazineId).toString() + "\n");
+			System.out.println("Want to subscribe to this magazine? \n(1) Yes \n(2) No");
+			option = validateIntegerInput();
 
-		if (option == 1) {
-			msg = controller.subscribeToAMagazine(userId, magazineId);
-			System.out.println(msg);
-		} else {
-			System.out.println("The magazine was not subscribed");
-		}
+			if (option == 1) {
+				msg = controller.subscribeToAMagazine(userId, magazineId);
+				System.out.println(msg);
+			} else {
+				System.out.println("The magazine was not subscribed");
+			}
+
+			System.out.println("Do you want to subscribe to another magazine? \n(1) Yes \n(2) No");
+			decision = validateIntegerInput();
+
+		} while (decision == 1);
+
+		
 	}
 
 	public void unsubscribeOfAMagazine() {
@@ -326,8 +347,73 @@ public class ReadXSystem {
 	}
 
 	public void readingSession() {
-		// TODO - implement ReadXSystem.readingSession
-		throw new UnsupportedOperationException();
+		String userId = "";
+		String bookId = "";
+		String msg = "";
+		int option = 0;
+
+		System.out.println("Please enter the user's id: ");
+		userId = sc.nextLine();
+
+		System.out.println("Please enter the book's id: ");
+		bookId = sc.nextLine();
+
+		///
+
+
+		///
+
+		// try {
+		// 	if (controller.findUserById(userId).findBookById(bookId) == null) {
+		// 		System.out.println("The user " + userId + " does not have the book " + bookId);
+		// 		return;//return to the main menu
+		// 	}
+		// } catch (NullPointerException e) {
+		// 	System.out.println("The user does not exist");
+		// 	return;//return to the main menu
+		// }
+
+		try {
+			System.out.println("Book information: \n" + controller.findProductById(bookId).toString() + "\n");
+		} catch (Exception e) {
+			System.out.println("The book does not exist");
+			return;//return to the main menu
+		}
+
+		System.out.println("Want to start reading this book? \n(1) Yes \n(2) No");
+		option = validateIntegerInput();
+
+		String input = "";
+
+		if (option == 1) {
+			String[] sheets = controller.findProductById(bookId).getSheets();
+			int currentPage = 0;
+			while(!input.equals("b")) {
+				System.out.println("Page " + (currentPage + 1) + " of " + sheets.length);
+				System.out.println(sheets[currentPage]);
+				input = sc.nextLine();//si el input es "a" debe pasar a la sigyiente página del libro
+				if (input.equals("s")) {
+					currentPage++;
+					if (currentPage == sheets.length) {
+						currentPage = 0;
+					}
+				} else if (input.equals("a")) {
+					if (currentPage == 0) {
+						System.out.println("You are in the first page");
+					} else {
+						currentPage--;//si el input es "s" debe pasar a la página anterior del libro
+					}
+				} else {
+					System.out.println("The reading session was finished");
+					break;
+				}
+
+			}
+			// msg = controller.readingSession(userId, bookId);
+			System.out.println(msg);
+		} else {
+			System.out.println("The reading session was not started");
+		}
 	}
 
 }

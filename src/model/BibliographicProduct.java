@@ -11,6 +11,7 @@ public abstract class BibliographicProduct {
 	private String url;
 	private double price;
 	private int pagesRead;
+	private String[] sheets;
 
 	/**
 	 * 
@@ -27,6 +28,14 @@ public abstract class BibliographicProduct {
 		this.publicationDate = publicationDate;
 		this.url = url;
 		this.price = price;
+		this.sheets = new String[pages];
+		initSheets(pages);
+	}
+	
+	public void initSheets(int pages) {
+		for (int i = 0; i < pages; i++) {
+			this.sheets[i] = "Page " + (i + 1);
+		}
 	}
 
 	public String getName() {
@@ -102,6 +111,14 @@ public abstract class BibliographicProduct {
 	}
 
 	public abstract String generateId();
+
+	public String[] getSheets() {
+		return this.sheets;
+	}
+
+	public void setSheets(String[] sheets) {
+		this.sheets = sheets;
+	}
 
 	public String showAttributesToModify() {
 		Locale locale = new Locale.Builder()
