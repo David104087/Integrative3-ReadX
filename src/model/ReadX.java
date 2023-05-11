@@ -366,6 +366,7 @@ public class ReadX {
 			if (user != null) {//if the user exists
 				if (user instanceof PremiumUser || ( (RegularUser)user ).getBooksPurchased() < 5) { //if the user is premium or regular and has not purchased 5 books
 					if (user.getBalance() >= book.getPrice()) {//if the user has enough money
+
 						Invoice invoice = new Invoice(book.getName(), book.getPrice(), Calendar.getInstance());//create a new invoice
 						user.addProduct(book, invoice);//add the book to the user's products
 						user.setBalance(user.getBalance() - book.getPrice());//subtract the price of the book to the user's balance
@@ -462,30 +463,33 @@ public class ReadX {
 
 	}
 
-	// public String[] readingSession2(String userId, String productId, String option) {
-	// 	String content = "";
+	public String readingSession(String userId, String productId, String option, int currentPage) {
+		String content = "";
 
-	// 	BibliographicProduct book = findProductById(productId);
+		BibliographicProduct book = findProductById(productId);
 
-	// 	if (option.equals("s")) {
-	// 		String[] sheets = book.getSheets();
-	// 		int currentPage = 0;
+		String[] sheets = book.getSheets();
 
-	// 		while(true) {
-	// 		content = "Page " + (currentPage + 1) + " of " + sheets.length + "\n" + sheets[currentPage];
+		if (option.equals("s")) {
+			currentPage++;
+			if (currentPage == sheets.length) { //if the user is in the last page, return to the first one
+				currentPage = 0;
+			}
+		} else if (option.equals("a")) {
+			if (currentPage == 0) {
+				content += "You are in the first page";
+			} else {
+				currentPage--;
+			}
+		}
 
-			
-
-	// 		}
-	// 	} 
-
+		content += "Reading session in process:\n Page " + (currentPage+1) + " of " + sheets.length + "\n" + sheets[currentPage];
 
 
 
 		
+		return content;
 
-	// 	return content;
-
-	// }
+	}
 
 }
