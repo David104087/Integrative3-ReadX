@@ -87,32 +87,17 @@ public abstract class User {
 	}
 	
 
-	/**
-	 * 
-	 * @param name
-	 */
-	public Magazine findMagazineById(String id) {
-		for (BibliographicProduct product : products) {
-			if (product instanceof Magazine) {
-				if (product.getName().equals(name)) {
-					return (Magazine) product;
+	public BibliographicProduct findProductById(String productId) {
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				if ( ( (Magazine) products.get(i) ).getId().equals(productId)) {
+					return products.get(i);
 				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * 
-	 * @param id
-	 */
-	public Book findBookById(String id) {
-		for (BibliographicProduct product : products) {
-			if (product instanceof Book) {
-				if (product.getName().equals(name)) {
-					return (Book) product;
+			} else {
+				if ( ( (Book) products.get(i) ).getId().equals(productId)) {
+					return products.get(i);
 				}
-			}
+			} 
 		}
 		return null;
 	}

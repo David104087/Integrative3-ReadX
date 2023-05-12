@@ -1,5 +1,6 @@
 package model;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
@@ -89,12 +90,14 @@ public class ReadX {
 	
 		if (userType == 1) {
 			user = new PremiumUser(name, id, Calendar.getInstance(), balance);
+			msg += "\nUser information:" + "\n" + "User type: Premium\n";
 		} else {
 			user = new RegularUser(name, id, Calendar.getInstance(), balance);
+			msg += "\nUser information:" + "\n" + "User type: Regular\n";
 		}
 		users.add(user);
 
-		msg += "\nUser information:\n " + user.toString() + "\n";
+		msg += user.toString() + "\n";
 	
 		return msg;
 	}
@@ -178,8 +181,8 @@ public class ReadX {
 				+ "------------------\n";
 
 		//register 1 premium user and 1 regular user
-		for (int i = 0; i < 2; i++) {
-			msg += "\n(" + (i+1) + ") " + registerUser("User " + i, "id" + i, 100.0, 1);
+		for (int i = 1; i < 3; i++) {
+			msg += "\n(" + (i+1) + ") " + registerUser("User" + i, "id" + i, 100.0, i);
 		}
 
 		msg += "\n------------------\n"
@@ -187,8 +190,8 @@ public class ReadX {
 				+ "------------------\n";
 
 		//register 3 books by genre 
-		for (int i = 0; i < 3; i++) {
-			msg += "\n(" + (i+1) + ") " + registerBook("Book " + i, 10, Calendar.getInstance(), "www.tlotr.com", 30.0, "Very good", i);
+		for (int i = 1; i < 4; i++) {
+			msg += "\n(" + (i+1) + ") " + registerBook("book" + i, 30, Calendar.getInstance(), "www.tlotr.com", 30.0, "Very good", i);
 		}
 
 		msg += "\n------------------\n"
@@ -196,10 +199,9 @@ public class ReadX {
 				+ "------------------\n";
 
 		//register 3 magazines by category
-		for (int i = 0; i < 3; i++) {
-			msg += "\n(" + (i+1) + ") " + registerMagazine("Magazine " + i, 5, Calendar.getInstance(), "www.hello.com", 5.0, "Weekly", i);
+		for (int i = 1; i < 4; i++) {
+			msg += "\n(" + (i+1) + ") " + registerMagazine("magazine" + i, 25, Calendar.getInstance(), "www.hello.com", 5.0, "Weekly", i);
 		}
-
 
 		return msg;
 	}
@@ -450,45 +452,32 @@ public class ReadX {
 		return msg;	
 	}
 
-	public void displayAdvertising() {
-		// TODO - implement ReadX.displayAdvertising
-		throw new UnsupportedOperationException();
-	}
+	public String displayAdvertising(String userId, String productId, int currentPage) {
+		String advertisement = "";
 
-	public String[] readingSession(String userId, String productId) {
 		
-		BibliographicProduct book = findProductById(productId);
+		String[] advertisements = {
+			"Subscribe to Combo Plus and get Disney+ and Star+ at an incredible price!",
+			"Now your pets have a favorite app: Laika. The best products for your furry friend.",
+			"It's our anniversary! Visit your nearest Éxito and be surprised with the best offers."};
+		
+		User user = findUserById(userId);
 
-		return book.getSheets();
+		int random = (int) (Math.random() * 3);
 
-	}
-
-	public String readingSession(String userId, String productId, String option, int currentPage) {
-		String content = "";
-
-		BibliographicProduct book = findProductById(productId);
-
-		String[] sheets = book.getSheets();
-
-		if (option.equals("s")) {
-			currentPage++;
-			if (currentPage == sheets.length) { //if the user is in the last page, return to the first one
-				currentPage = 0;
-			}
-		} else if (option.equals("a")) {
-			if (currentPage == 0) {
-				content += "You are in the first page";
+		if (user instanceof RegularUser) {
+			if (findProductById(productId) instanceof Magazine) {
+				if (currentPage != 0 && currentPage % 5 == 0) {
+					advertisement = "Advertisement:\n" + advertisements[random];
+				}
 			} else {
-				currentPage--;
+				if (currentPage != 0 && currentPage % 20 == 0) {
+					advertisement = "Advertisement:\n" + advertisements[random];
+				}
 			}
 		}
 
-		content += "Reading session in process:\n Page " + (currentPage+1) + " of " + sheets.length + "\n" + sheets[currentPage];
-
-
-
-		
-		return content;
+		return advertisement;
 
 	}
 
