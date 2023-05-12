@@ -8,8 +8,14 @@ import java.util.regex.Pattern;
 
 public class ReadX {
 
+	/*
+	 * This attribute represents the list of users that are registered in the program
+	 */
 	private ArrayList<User> users;
 
+	/*
+	 * This attribute represents the list of products that are registered in the program
+	 */
 	private ArrayList<BibliographicProduct> products;
 
 	/**
@@ -40,8 +46,14 @@ public class ReadX {
 	}
 
 	/**
+	 * This Java function searches for a product by its ID in the list of books and magazines and returns the
+	 * matching product.
 	 * 
-	 * @param productId
+	 * @param productId a String representing the ID of a product that needs to be found in a list of
+	 * products.
+	 * @return The method is returning a BibliographicProduct object, which is either a Book or a Magazine,
+	 * depending on the ID provided as a parameter. If no product is found with the given ID, the method
+	 * returns null.
 	 */
 	public BibliographicProduct findProductById(String productId) {
 		for (int i = 0; i < products.size(); i++) {
@@ -59,9 +71,15 @@ public class ReadX {
 	}
 	
 
+
 	/**
+	 * This Java function searches for a product by name in the list of books and magazines and returns the
+	 * matching product.
 	 * 
-	 * @param productName
+	 * @param productName a String representing the name of a product to search for in a list of
+	 * BibliographicProduct objects.
+	 * @return The method is returning a BibliographicProduct object, which represents a book or a magazine
+	 * with the specified name. If no product with the specified name is found, the method returns null.
 	 */
 	public BibliographicProduct findProductByName(String productName) {
 		for (int i = 0; i < products.size(); i++) {
@@ -79,10 +97,17 @@ public class ReadX {
 	}
 
 	/**
+	 * The function registers a user with a given name, ID, balance, and user type, and returns a message
+	 * indicating the success of the registration and the user's information.
 	 * 
-	 * @param name
-	 * @param id
-	 * @param userTye
+	 * @param name The name of the user being registered.
+	 * @param id The ID of the user being registered.
+	 * @param balance The initial balance of the user's account.
+	 * @param userType an integer value representing the type of user being registered. A value of 1
+	 * represents a PremiumUser and a value of 2 represents a RegularUser.
+	 * @return The method `registerUser` returns a `String` message indicating whether the user was
+	 * registered successfully or not, along with the user information such as user type, name, id,
+	 * registration date, and balance.
 	 */
 	public String registerUser(String name, String id, double balance, int userType) {
 		String msg = "User registered successfully!!!";
@@ -191,7 +216,7 @@ public class ReadX {
 
 		//register 3 books by genre 
 		for (int i = 1; i < 4; i++) {
-			msg += "\n(" + (i+1) + ") " + registerBook("book" + i, 30, Calendar.getInstance(), "www.tlotr.com", 30.0, "Very good", i);
+			msg += "\n(" + (i+1) + ") " + registerBook("book" + i, 30, Calendar.getInstance(), "thing.jpg", 30.0, "Very good", i);
 		}
 
 		msg += "\n------------------\n"
@@ -200,7 +225,7 @@ public class ReadX {
 
 		//register 3 magazines by category
 		for (int i = 1; i < 4; i++) {
-			msg += "\n(" + (i+1) + ") " + registerMagazine("magazine" + i, 25, Calendar.getInstance(), "www.hello.com", 5.0, "Weekly", i);
+			msg += "\n(" + (i+1) + ") " + registerMagazine("magazine" + i, 25, Calendar.getInstance(), "thing1.jpg", 5.0, "Weekly", i);
 		}
 
 		return msg;
@@ -427,7 +452,7 @@ public class ReadX {
 						msg = "Insufficient funds";
 					}
 				} else {
-					msg = "\n You have already suscribed to 5 magazines, upgrade to premium to suscribe to more magazines!!! \n";
+					msg = "\n You have already suscribed to 2 magazines, upgrade to premium to suscribe to more magazines!!! \n";
 				}
 
 			} else {
@@ -467,11 +492,11 @@ public class ReadX {
 
 		if (user instanceof RegularUser) {
 			if (findProductById(productId) instanceof Magazine) {
-				if (currentPage != 0 && currentPage % 5 == 0) {
+				if (currentPage == 1 || currentPage % 5 == 0) {
 					advertisement = "Advertisement:\n" + advertisements[random];
 				}
 			} else {
-				if (currentPage != 0 && currentPage % 20 == 0) {
+				if (currentPage == 1 || currentPage % 20 == 0) {
 					advertisement = "Advertisement:\n" + advertisements[random];
 				}
 			}

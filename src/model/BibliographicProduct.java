@@ -3,10 +3,22 @@ import java.util.Calendar;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/*
+ * This class represents a bibliographic product.
+ */
 public abstract class BibliographicProduct {
 
+	/*
+	 * This attribute represents the name of the product.
+	 */
 	private String name;
+	/*
+	 * This attribute represents the number of pages of the product.
+	 */
 	private int pages;
+	/*
+	 * This attribute represents the date of publication of the product.
+	 */
 	private Calendar publicationDate;
 	private String url;
 	private double price;
@@ -107,7 +119,7 @@ public abstract class BibliographicProduct {
 	 * @param pagesRead
 	 */
 	public void setPagesRead(int pagesRead) {
-		this.pagesRead = pagesRead;
+		this.pagesRead += pagesRead;
 	}
 
 	public abstract String generateId();

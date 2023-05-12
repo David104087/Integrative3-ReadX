@@ -14,15 +14,29 @@ import java.util.regex.Pattern;
 
 public class ReadXSystem {
 
+	/*
+	 * This variable will be used to read input from the user. 
+	 */
 	private Scanner sc;
+
+	/*
+	 * This variable represents the conection between the ui and the model.
+	 */
 	private ReadX controller;
 
-
+	/*
+	 * This is the constructor method of the class ReadXSystem
+	 */
 	public ReadXSystem() {
 		sc = new Scanner(System.in);
 		controller = new ReadX();
 	}
 
+	/**
+	 * The main function creates an object of the ReadXSystem class, displays a menu, validates user input,
+	 * and executes the selected option until the user chooses to exit.
+	 * @param args An array of Strings that stores the arguments passed by the user through the console.
+	 */
 	public static void main(String[] args) {
 		ReadXSystem view = new ReadXSystem(); //create an object of the class
 		int option = 0; 
@@ -38,10 +52,20 @@ public class ReadXSystem {
         view.sc.close();
 	}
 
+
+	/**
+	 * The function displays a menu with options for the program.
+	 */
 	public void menu() {
 		System.out.println("Welcome to ReadX, please select an option:  \n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Reading session \n(9) Exit");
 	}
 
+	/**
+	 * This function executes different options based on the input parameter using a switch statement.
+	 * 
+	 * @param option an integer representing the user's selected option from the menu. The method executes a
+	 * specific action based on the selected option.
+	 */
 	public void executeOption(int option){
 		switch(option){
 			case 0: 
@@ -100,6 +124,10 @@ public class ReadXSystem {
     }
 
 
+	/**
+	 * This function registers a user by taking input for their name, id, balance, and user type, and then
+	 * displays their information.
+	 */
 	public void registerUser() {
 		String name = "";
 		String id = "";
@@ -122,10 +150,12 @@ public class ReadXSystem {
 		System.out.println("User information: \n" + "User type: " +  (userType == 1 ? "Premium" : "Regular") 
 		+ "\n" + controller.findUserById(id).toString() + "\n");
 
-
-
 	}
 
+	/**
+	 * This function registers products (books or magazines) by taking user input for their attributes
+	 * and calling the method in the controller class.
+	 */
 	public void registerProducts() {
 		String name = "";
 		int pages = 0;
@@ -195,6 +225,9 @@ public class ReadXSystem {
 		System.out.println(msg);
 	}
 
+	/**
+	 * This function initializes the program and prints a message with the info of users and products created
+	 */
 	public void initReadX() {
 		String msg = controller.initReadX();
 		System.out.println(msg);
