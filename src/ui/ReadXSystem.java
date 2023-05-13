@@ -1,7 +1,7 @@
 /**
  * @author [David Artunduaga Penagos]
  * @version [1.0]
- * @since [04/04/2023]
+ * @since [13/05/2023]
  */
 package ui;
 import java.util.Scanner;
@@ -11,22 +11,21 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * This class represents the user interface of the program.
+ */
 public class ReadXSystem {
 
-	/*
+	/**
 	 * This variable will be used to read input from the user. 
 	 */
 	private Scanner sc;
 
-	/*
+	/**
 	 * This variable represents the conection between the ui and the model.
 	 */
 	private ReadX controller;
 
-	/*
-	 * This is the constructor method of the class ReadXSystem
-	 */
 	public ReadXSystem() {
 		sc = new Scanner(System.in);
 		controller = new ReadX();
@@ -44,7 +43,7 @@ public class ReadXSystem {
 		
         do{
             view.menu(); 
-            option = view.validateIntegerInput(); //set view. pa all methods as they need to be executed for that object
+            option = view.validateIntegerInput(); 
             view.executeOption(option);
         }while(option != 9);
 
@@ -75,7 +74,7 @@ public class ReadXSystem {
 				registerUser(); 
 				break; 
 			case 2: 
-				registerProducts(); 
+				registerProduct(); 
 				break; 
 			case 3: 
 				modifyProduct(); 
@@ -87,7 +86,7 @@ public class ReadXSystem {
 				buyBook(); 
 				break; 
 			case 6: 
-				suscribeToAMagazine(); 
+				subscribeToAMagazine(); 
 				break; 
 			case 7: 
 				unsubscribeOfAMagazine(); 
@@ -146,17 +145,13 @@ public class ReadXSystem {
 		msg = controller.registerUser(name, id, balance, userType);
 		System.out.println(msg);
 
-
-		System.out.println("User information: \n" + "User type: " +  (userType == 1 ? "Premium" : "Regular") 
-		+ "\n" + controller.findUserById(id).toString() + "\n");
-
 	}
 
 	/**
 	 * This function registers products (books or magazines) by taking user input for their attributes
 	 * and calling the method in the controller class.
 	 */
-	public void registerProducts() {
+	public void registerProduct() {
 		String name = "";
 		int pages = 0;
 		String publicationDate = "";
@@ -233,6 +228,11 @@ public class ReadXSystem {
 		System.out.println(msg);
 	}
 
+
+	/**
+	 * This function modifies a product's attribute based on user input and displays the updated product
+	 * information.
+	 */
 	public void modifyProduct() {
 		String id = "";
 		int dataToModify = 0;
@@ -252,6 +252,10 @@ public class ReadXSystem {
 		System.out.println("Product information: \n" + controller.findProductById(id).toString() + "\n");
 	}
 
+	/**
+	 * This function prompts the user to enter a product ID and then calls a controller method to
+	 * delete the corresponding product.
+	 */
 	public void deleteProduct() {
 		String id = "";
 		String msg = "";
@@ -263,6 +267,10 @@ public class ReadXSystem {
 		System.out.println(msg);
 	}
 
+	/**
+	 * This function allows a user to buy a book by entering their user ID and the book's name, and then
+	 * confirming their purchase decision.
+	 */
 	public void buyBook() {
 		String userId = "";
 		String bookName = "";
@@ -300,7 +308,11 @@ public class ReadXSystem {
 
 	}
 
-	public void suscribeToAMagazine() {
+	/**
+	 * This function allows a user to subscribe to a magazine by entering their user ID and the magazine's name, and then
+	 * confirming their subscription decision.
+	 */
+	public void subscribeToAMagazine() {
 		String userId = "";
 		String magazineId = "";
 		String msg = "";
@@ -338,6 +350,10 @@ public class ReadXSystem {
 		
 	}
 
+	/**
+	 * This function allows a user to unsubscribe to a magazine by entering their user ID and the magazine's name, and then
+	 * confirming their unsubscription decision.
+	 */
 	public void unsubscribeOfAMagazine() {
 		String userId = "";
 		String magazineId = "";
@@ -380,6 +396,10 @@ public class ReadXSystem {
 	}
 
 
+	/**
+	 * This function allows a user to start a reading session for a specific product and navigate through
+	 * its pages.
+	 */
 	public void readingSession() {
 		String userId = "";
 		String productId = "";

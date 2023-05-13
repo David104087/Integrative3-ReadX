@@ -1,33 +1,32 @@
 package model;
 import java.util.Calendar;
-import java.util.Random;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is the controller of the program, the conexion between the view and the model.
+ */
 public class ReadX {
 
-	/*
+	/**
 	 * This attribute represents the list of users that are registered in the program
 	 */
 	private ArrayList<User> users;
 
-	/*
+	/**
 	 * This attribute represents the list of products that are registered in the program
 	 */
 	private ArrayList<BibliographicProduct> products;
 
-	/**
-	 * This method is the constructor of the class ReadX
-	 */
 	public ReadX() {
 		users = new ArrayList<User>();
 		products = new ArrayList<BibliographicProduct>();
 	}
 
 	/**
-	 * This Java function searches for a user in a list of users by their ID and returns the user object if
+	 * This function searches for a user in a list of users by their ID and returns the user object if
 	 * found, otherwise it returns null.
 	 * 
 	 * @param userId The parameter "userId" is a String that represents the unique identifier of a user.
@@ -46,7 +45,7 @@ public class ReadX {
 	}
 
 	/**
-	 * This Java function searches for a product by its ID in the list of books and magazines and returns the
+	 * This function searches for a product by its ID in the list of books and magazines and returns the
 	 * matching product.
 	 * 
 	 * @param productId a String representing the ID of a product that needs to be found in a list of
@@ -73,7 +72,7 @@ public class ReadX {
 
 
 	/**
-	 * This Java function searches for a product by name in the list of books and magazines and returns the
+	 * This function searches for a product by name in the list of books and magazines and returns the
 	 * matching product.
 	 * 
 	 * @param productName a String representing the name of a product to search for in a list of
@@ -129,15 +128,21 @@ public class ReadX {
 	
 
 	/**
+	 * The function registers a book with its information and genre in the list of products.
 	 * 
-	 * @param name
-	 * @param pages
-	 * @param newStaus
-	 * @param url
-	 * @param price
-	 * @param id
-	 * @param review
-	 * @param genre
+	 * @param name The name of the book being registered.
+	 * @param pages The number of pages in the book.
+	 * @param publicationDate A Calendar object representing the date of publication of the book.
+	 * @param url The URL parameter is a String that represents the URL of the book's cover image.
+	 * @param price The price of the book being registered.
+	 * @param review The review parameter is a String that represents the review or critique of the book
+	 * being registered.
+	 * @param genre The genre parameter is an integer that represents the genre of the book being
+	 * registered. It can have a value of 1, 2, or any other integer. The value 1 represents the science
+	 * fiction genre, the value 2 represents the fantasy genre, and any other value represents the
+	 * historical novel
+	 * @return The method is returning a String message that indicates whether the book was registered
+	 * successfully or not, and includes the book information if it was registered successfully.
 	 */
 	public String registerBook(String name, int pages, Calendar publicationDate, String url, double price, String review, int genre) {
 		String msg = "Book registered successfully!!!";
@@ -163,15 +168,20 @@ public class ReadX {
 	}
 
 	/**
+	 * The function registers a new magazine with its information and category and adds it to the list of
+	 * products.
 	 * 
-	 * @param name
-	 * @param pages
-	 * @param newStaus
-	 * @param url
-	 * @param price
-	 * @param preiodicity
-	 * @param id
-	 * @param category
+	 * @param name The name of the magazine being registered (String).
+	 * @param pages The number of pages in the magazine.
+	 * @param publicationDate A Calendar object representing the date of publication of the magazine.
+	 * @param url The URL parameter is a string that represents the URL of the magazine's cover image.
+	 * @param price The price of the magazine.
+	 * @param preiodicity The parameter "preiodicity" is likely a misspelling of "periodicity" and refers
+	 * to how often the magazine is published (e.g. weekly, monthly, quarterly).
+	 * @param category an integer representing the category of the magazine. 1 represents "VARITIES", 2
+	 * represents "DESIGN", and any other integer represents "SCIENTIFIC".
+	 * @return A message indicating that the magazine has been registered successfully, along with the
+	 * information of the registered magazine.
 	 */
 	public String registerMagazine(String name, int pages, Calendar publicationDate, String url, double price, String preiodicity, int category) {
 		String msg = "Magazine registered successfully!!!";
@@ -197,6 +207,13 @@ public class ReadX {
 		return msg;
 	}
 
+	/**
+	 * The function initializes and registers users, books, and magazines, and returns a message containing
+	 * the registered items.
+	 * 
+	 * @return The method `initReadX()` is returning a `String` message that contains information about
+	 * registered users, books, and magazines.
+	 */
 	public String initReadX() {
 
 		String msg = "";
@@ -231,11 +248,18 @@ public class ReadX {
 		return msg;
 	}
 
+
 	/**
+	 * This function modifies a bibliographic product based on the data to modify and the new status
+	 * provided.
 	 * 
-	 * @param productId
-	 * @param dataToModify
-	 * @param newStaus
+	 * @param productId a String representing the ID of the product to be modified.
+	 * @param dataToModify an integer representing which data field of the product to modify (1 for name, 2
+	 * for pages, 3 for publication date, 4 for URL, 5 for price, 6 for review/periodicity, 7 for
+	 * genre/category)
+	 * @param newStaus The new value to be set for the specified dataToModify parameter.
+	 * @return The method is returning a String message indicating whether the modification was successful
+	 * or not.
 	 */
 	public String modifyProduct(String productId, int dataToModify, String newStaus) {
 		String msg = "";
@@ -344,8 +368,11 @@ public class ReadX {
 	}
 
 	/**
+	 * This function deletes a bibliographic product from the products list based on the ID provided.
 	 * 
-	 * @param productId
+	 * @param productId a String representing the ID of the product to be deleted.
+	 * @return The method is returning a String message indicating whether the deletion was successful or
+	 * not.
 	 */
 	public String deleteProduct(String productId) {
 		String msg = "";
@@ -376,11 +403,15 @@ public class ReadX {
 		return msg;
 	}
 	
-
 	/**
+	 * The function allows a user to purchase a book if they have enough funds and have not already
+	 * purchased 5 books (unless they are a premium user), and returns a message indicating the success or
+	 * failure of the purchase.
 	 * 
-	 * @param userId
-	 * @param bookName
+	 * @param userId A string representing the ID of the user who wants to buy the book.
+	 * @param bookName The name of the book that the user wants to buy.
+	 * @return The method is returning a message (String) indicating the result of the book purchase
+	 * operation.
 	 */
 	public String buyBook(String userId, String bookName) {
 		String msg = "";
@@ -422,10 +453,17 @@ public class ReadX {
 		return msg;
 	}
 
+
 	/**
+	 * The function allows a user to subscribe to a magazine if they have enough funds and have not already
+	 * subscribed to a 2 magazines (unless they are a premium user), and returns a message indicating the success or
+	 * failure of the subcription.
 	 * 
-	 * @param userId
-	 * @param magazineName
+	 * @param userId A string representing the ID of the user who wants to subscribe to a magazine.
+	 * @param magazineName The name of the magazine that the user wants to subscribe to.
+	 * @return The method is returning a String message that indicates whether the subscription was
+	 * successful or not, and includes information such as the new balance of the user, the invoice, and
+	 * any error messages.
 	 */
 	public String subscribeToAMagazine(String userId, String magazineName) {
 		String msg = "";
@@ -466,17 +504,30 @@ public class ReadX {
 	}
 
 	/**
-	 * 
-	 * @param userId
-	 * @param magazineName
+	 * The function allows a user to unsubscribe to a magazine if they have already subscribed to it, and returns a message indicating the success or
+	 * failure of the unsubscription.
+	 * @param userId A string representing the ID of the user who wants to unsubscribe to a magazine.
+	 * @param magazineId The ID of the magazine that the user wants to unsubscribe to.
+	 * @return The method is returning a String message that indicates whether the unsubscription was
+	 * successful or not, and includes information such as the new balance of the user, the invoice, and
 	 */
-	public String unsubscribeOfAMagazine(String userId, String magazineiD) {
+	public String unsubscribeOfAMagazine(String userId, String magazineId) {
 
-		String msg = findUserById(userId).unsubscribeOfAMagazine(magazineiD);
+		String msg = findUserById(userId).unsubscribeOfAMagazine(magazineId);
 
 		return msg;	
 	}
 
+	/**
+	 * The function displays an advertisement based on the user's type, the product type, and the current
+	 * page.
+	 * 
+	 * @param userId A string representing the unique identifier of a user.
+	 * @param productId The ID of the product being displayed on the current page.
+	 * @param currentPage The current page number of the product being displayed.
+	 * @return The method is returning a String variable named "advertisement" which contains an
+	 * advertisement message based on certain conditions.
+	 */
 	public String displayAdvertising(String userId, String productId, int currentPage) {
 		String advertisement = "";
 

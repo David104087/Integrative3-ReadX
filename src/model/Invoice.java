@@ -3,17 +3,24 @@ import java.util.Calendar;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/**
+ * This class represents an invoice of a product.
+ */
 public class Invoice {
 
+	/**
+	 * This attribute represents the name of the product.
+	 */
 	private String productName;
+	/**
+	 * This attribute represents the price of the product.
+	 */
 	private double price;
+	/**
+	 * This attribute represents the date of the invoice.
+	 */
 	private Calendar date;
 
-	/**
-	 * 
-	 * @param date
-	 * @param amount
-	 */
 	public Invoice(String productName, double price, Calendar date) {
 		this.productName = productName;
 		this.price = price;
@@ -44,6 +51,10 @@ public class Invoice {
 		this.date = date;
 	}
 
+	/**
+	 * This function returns the invoice as a string.
+	 * @return the invoice as a string with the product name, price and date.
+	 */
 	public String toString() {
 		Locale locale = new Locale.Builder()
 		.setLanguage("en")
@@ -56,7 +67,5 @@ public class Invoice {
 				"Date: " + this.date.getTime() + "\n" +
 				"-----------------------\n";
 	}
-
-
 
 }

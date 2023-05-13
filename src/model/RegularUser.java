@@ -1,17 +1,21 @@
 package model;
 import java.util.Calendar;
 
+
+/**
+ * This class represents a regular user.
+ */
 public class RegularUser extends User {
 
+	/**
+	 * This attribute represents the number of books purchased by the user.
+	 */
 	private int booksPurchased;
+	/**
+	 * This attribute represents the number of magazines suscribed by the user.
+	 */
 	private int magazinesSuscribed;
 
-	/**
-	 * 
-	 * @param name
-	 * @param id
-	 * @param linkingDate
-	 */
 	public RegularUser(String name, String id, Calendar linkingDate, double balance) {
 		super(name, id, linkingDate, balance);
 	}
@@ -20,10 +24,6 @@ public class RegularUser extends User {
 		return this.booksPurchased;
 	}
 
-	/**
-	 * 
-	 * @param booksPurchased
-	 */
 	public void setBooksPurchased(int booksPurchased) {
 		this.booksPurchased += booksPurchased;
 	}
@@ -32,10 +32,6 @@ public class RegularUser extends User {
 		return this.magazinesSuscribed;
 	}
 
-	/**
-	 * 
-	 * @param magazinesSuscribed
-	 */
 	public void setMagazinesSuscribed(int magazinesSuscribed) {
 		this.magazinesSuscribed += magazinesSuscribed;
 	}
