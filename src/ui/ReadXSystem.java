@@ -97,6 +97,9 @@ public class ReadXSystem {
 			case 9: 
 				System.out.println("Bye!"); 
 				break; 
+			case 10:
+				sortProductsByAscendingDate();
+				break;
 			default: 
 				System.out.println("Invalid option"); 
 				break; 
@@ -474,6 +477,16 @@ public class ReadXSystem {
 		} else {
 			System.out.println("The reading session was not started");
 		}
+	}
+
+	public void sortProductsByAscendingDate() {
+		String id = "";
+		System.out.println("Enter the user id: ");
+		id = sc.nextLine();
+		System.out.println(controller.findUserById(id).getProducts().toString() + "\n--------------------------------------------------------------");
+		controller.findUserById(id).sortProductsByAscendingDate();
+
+		System.out.println(controller.findUserById(id).getProducts().toString());
 	}
 
 }

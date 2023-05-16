@@ -129,6 +129,28 @@ public abstract class User {
 		return msg;
 	}
 
+	public void sortProductsByAscendingDate() {
+
+		for (int i = 0; i < products.size(); i++) {
+			int minIndex = i;
+
+			for (int j = i + 1; j < products.size(); j++) {// j = i + 1 porque i ya esta ordenado
+				if (products.get(j).getPublicationDate().compareTo(products.get(minIndex).getPublicationDate()) < 0) {
+					minIndex = j;
+				}
+			}
+
+			// Product swap, exchanges the product on the right (j, the one smaller than i) with the one on the left (i)
+			BibliographicProduct temp = products.get(minIndex); // Temporarily stores the product at minIndex in a temporary variable called "temp"
+
+			products.set(minIndex, products.get(i)); // Places the product at position i in the minIndex(j) position to perform the swap
+
+			products.set(i, temp); // Places the product stored in "temp" at position i to complete the swap
+
+			
+		}
+	}
+
 
 	public String getName() {
 		return this.name;
@@ -165,5 +187,10 @@ public abstract class User {
 	public ArrayList<Invoice> getInvoices() {
 		return invoices;
 	}
+
+	public ArrayList<BibliographicProduct> getProducts() {
+		return products;
+	}
+
 
 }
