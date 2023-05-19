@@ -374,7 +374,7 @@ public class ReadXSystem {
 				System.out.println("The user " + userId + " is not subscribed to the magazine " + magazineId);
 				return;//return to the main menu
 			}
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			System.out.println("The user does not exist");
 			return;//return to the main menu
 		}
@@ -421,7 +421,7 @@ public class ReadXSystem {
 				System.out.println("The user " + userId + " does not have the product " + productId);
 				return;//return to the main menu
 			}
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
 			System.out.println("The user does not exist");
 			return;//return to the main menu
 		}
@@ -483,10 +483,8 @@ public class ReadXSystem {
 		String id = "";
 		System.out.println("Enter the user id: ");
 		id = sc.nextLine();
-		System.out.println(controller.findUserById(id).getProducts().toString() + "\n--------------------------------------------------------------");
-		controller.findUserById(id).sortProductsByAscendingDate();
+		System.out.println(controller.findUserById(id).getLibrary().showFirstShel()+ "\n--------------------------------------------------------------");
 
-		System.out.println(controller.findUserById(id).getProducts().toString());
 	}
 
 }

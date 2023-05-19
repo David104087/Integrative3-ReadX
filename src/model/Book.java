@@ -7,10 +7,6 @@ import java.util.Calendar;
 public class Book extends BibliographicProduct {
 
 	/**
-	 * This attribute represents the id of the book.
-	 */
-	private String id;
-	/**
 	 * This attribute represents the review of the book.
 	 */
 	private String review;
@@ -25,7 +21,6 @@ public class Book extends BibliographicProduct {
 
 	public Book(String name, int pages, Calendar publicationDate, String url, double price, String review, Genre genre) {
 		super(name, pages, publicationDate, url, price);
-		this.id = generateId();
 		this.review = review;
 		this.genre = genre;
 	}
@@ -68,7 +63,7 @@ public class Book extends BibliographicProduct {
 	@Override
 	public String toString() {
 		return super.toString() + "\nReview: " + this.review + "\n" +"Genre: " + this.genre.getName()
-		+ "\nID: " + this.id + "\n";
+		+ "\n";
 	}
 
 	public String getReview() {
@@ -93,14 +88,6 @@ public class Book extends BibliographicProduct {
 
 	public void setGenre(Genre genre) {
 		this.genre = genre;
-	}
-
-	public String getId() {
-		return this.id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 }

@@ -1,6 +1,7 @@
 package model;
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -25,22 +26,20 @@ public abstract class User {
 	 * This attribute represents the balance of the user.
 	 */
 	private double balance;
-	/**
-	 * This attribute represents the products of the user.
-	 */
-	private ArrayList<BibliographicProduct> products;
+
 	/**
 	 * This attribute represents the invoices of the user.
 	 */
 	private ArrayList<Invoice> invoices;
+	private Library library;
 
 	public User(String name, String id, Calendar linkingDate, double balance) {
 		this.name = name;
 		this.id = id;
 		this.linkingDate = linkingDate;
 		this.balance = balance;
-		products = new ArrayList<BibliographicProduct>();
 		invoices = new ArrayList<Invoice>();
+		library = new Library();
 	}
 
 	
@@ -53,10 +52,7 @@ public abstract class User {
 	 * argument to the method "addProduct". The purpose of this parameter is to associate the product being
 	 * added with the invoice to which it belongs.
 	 */
-	public void addProduct(BibliographicProduct product, Invoice invoice) {
-		products.add(product);
-		invoices.add(invoice);
-	}
+
 	
 
 	/**
@@ -70,8 +66,10 @@ public abstract class User {
 	 * returns null.
 	 */
 	public BibliographicProduct findProductById(String productId) {
+		ArrayList<BibliographicProduct> products = library.getProducts();
+
 		for (int i = 0; i < products.size(); i++) {
-			if (products.get(i) instanceof Magazine) {
+			if ((products).get(i) instanceof Magazine) {
 				if ( ( (Magazine) products.get(i) ).getId().equals(productId)) {
 					return products.get(i);
 				}
@@ -116,9 +114,11 @@ public abstract class User {
 	public String unsubscribeOfAMagazine(String magazineId) {
 		String msg = "";
 		boolean isFound = false;
+		ArrayList<BibliographicProduct> products = library.getProducts();
+
 		for (BibliographicProduct product : products) {
 			if (product instanceof Magazine) {
-				if (( (Magazine) product).getId().equals(magazineId)) {
+				if (( product).getId().equals(magazineId)) {
 					products.remove(product);
 					msg = "The user " + this.name + " has been unsubscribed of the magazine " + magazineId;
 					isFound = true;
@@ -127,28 +127,6 @@ public abstract class User {
 			}
 		}
 		return msg;
-	}
-
-	public void sortProductsByAscendingDate() {
-
-		for (int i = 0; i < products.size(); i++) {
-			int minIndex = i;
-
-			for (int j = i + 1; j < products.size(); j++) {// j = i + 1 porque i ya esta ordenado
-				if (products.get(j).getPublicationDate().compareTo(products.get(minIndex).getPublicationDate()) < 0) {
-					minIndex = j;
-				}
-			}
-
-			// Product swap, exchanges the product on the right (j, the one smaller than i) with the one on the left (i)
-			BibliographicProduct temp = products.get(minIndex); // Temporarily stores the product at minIndex in a temporary variable called "temp"
-
-			products.set(minIndex, products.get(i)); // Places the product at position i in the minIndex(j) position to perform the swap
-
-			products.set(i, temp); // Places the product stored in "temp" at position i to complete the swap
-
-			
-		}
 	}
 
 
@@ -188,8 +166,12 @@ public abstract class User {
 		return invoices;
 	}
 
-	public ArrayList<BibliographicProduct> getProducts() {
-		return products;
+	public Library getLibrary() {
+		return this.library;
+	}
+
+	public void addInvocie(Invoice invoice) {
+		invoices.add(invoice);
 	}
 
 

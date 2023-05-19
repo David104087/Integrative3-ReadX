@@ -426,7 +426,8 @@ public class ReadX {
 					if (user.getBalance() >= book.getPrice()) {//if the user has enough money
 
 						Invoice invoice = new Invoice(book.getName(), book.getPrice(), Calendar.getInstance());//create a new invoice
-						user.addProduct(book, invoice);//add the book to the user's products
+						user.getLibrary().addProduct(book);//add the book to the user's library
+						user.addInvocie(invoice);
 						user.setBalance(user.getBalance() - book.getPrice());//subtract the price of the book to the user's balance
 						msg = "Book " + book.getId() + " purchased successfully!!!" + "\n" + "Your new balance is: $ " + user.getBalance()
 						+ "\n" + invoice.toString();
@@ -476,7 +477,8 @@ public class ReadX {
 				if (user instanceof PremiumUser || ( (RegularUser)user ).getMagazinesSuscribed() < 2) {//if the user is premium or regular and has not suscribed to 5 magazines
 					if (user.getBalance() >= magazine.getPrice()) {//if the user has enough money
 						Invoice invoice = new Invoice(magazine.getName(), magazine.getPrice(), Calendar.getInstance());//create a new invoice
-						user.addProduct(magazine, invoice);//add the magazine to the user's products
+						user.getLibrary().addProduct(magazine);//add the magazine to the user's library
+						user.addInvocie(invoice);
 						user.setBalance(user.getBalance() - magazine.getPrice());//subtract the price of the magazine to the user's balance
 						msg = "Magazine " + magazine.getId() + " suscribed successfully!!!" + "\n" + "Your new balance is: $ " + user.getBalance()
 						+ "\n" + invoice.toString();

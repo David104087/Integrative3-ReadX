@@ -12,6 +12,8 @@ public abstract class BibliographicProduct {
 	 * This attribute represents the name of the product.
 	 */
 	private String name;
+
+	private String id;
 	/**
 	 * This attribute represents the number of pages of the product.
 	 */
@@ -45,6 +47,7 @@ public abstract class BibliographicProduct {
 		this.url = url;
 		this.price = price;
 		this.sheets = new String[pages];
+		this.id = generateId();
 		initSheets(pages);
 	}
 
@@ -95,8 +98,9 @@ public abstract class BibliographicProduct {
 		.setRegion("US")
 		.build();
 		NumberFormat formatDollars = NumberFormat.getCurrencyInstance(locale);
-		return "Name: " + name + "\nPages: " + pages + "\nPublication Date: " + publicationDate.getTime()
-		+ "\nURL: " + url + "\nPrice: " + formatDollars.format(price);
+		return "Name: " + this.name + "\nID:" + this.id +
+		"\nPages: " + this.pages + "\nPublication Date: " + this.publicationDate.getTime()
+		+ "\nURL: " + this.url + "\nPrice: " + formatDollars.format(this.price);
 	}
 
 	public String getName() {
@@ -153,6 +157,14 @@ public abstract class BibliographicProduct {
 
 	public void setSheets(String[] sheets) {
 		this.sheets = sheets;
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

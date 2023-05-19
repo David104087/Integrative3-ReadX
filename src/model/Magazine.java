@@ -7,10 +7,6 @@ import java.util.Calendar;
 public class Magazine extends BibliographicProduct {
 
 	/**
-	 * This attribute represents the id of the magazine.
-	 */
-	private String id;
-	/**
 	 * This attribute represents the periodicity of the magazine.
 	 */
 	private String periodicity;
@@ -25,7 +21,6 @@ public class Magazine extends BibliographicProduct {
 
 	public Magazine(String name, int pages, Calendar publicationDate, String url, double price, String periodicity, Category category) {
 		super(name, pages, publicationDate, url, price);
-		this.id = generateId();
 		this.periodicity = periodicity;
 		this.category = category;
 	}
@@ -84,14 +79,6 @@ public class Magazine extends BibliographicProduct {
 		this.category = category;
 	}
 
-	public String getId() {
-		return this.id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	/**
 	 * This function overrides the default toString method to include additional information about a
 	 * magazine's periodicity, category, and ID.
@@ -102,7 +89,7 @@ public class Magazine extends BibliographicProduct {
 	@Override
 	public String toString() {
 		return super.toString() + "\nPeriodicity: " + this.periodicity + 
-		"\nCategory: " + this.category.getName() + "\nID: " + this.id + "\n";
+		"\nCategory: " + this.category.getName() + "\n";
 	}
 
 }
