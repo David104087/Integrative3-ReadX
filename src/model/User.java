@@ -1,7 +1,6 @@
 package model;
 import java.util.Calendar;
 import java.util.ArrayList;
-import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -41,17 +40,6 @@ public abstract class User {
 		invoices = new ArrayList<Invoice>();
 		library = new Library();
 	}
-
-	
-	/**
-	 * The function adds a bibliographic product and an invoice to their respective lists.
-	 * 
-	 * @param product BibliographicProduct object that represents a product being added to the list of
-	 * products in the system.
-	 * @param invoice The parameter "invoice" is an object of the class "Invoice". It is being passed as an
-	 * argument to the method "addProduct". The purpose of this parameter is to associate the product being
-	 * added with the invoice to which it belongs.
-	 */
 
 	
 

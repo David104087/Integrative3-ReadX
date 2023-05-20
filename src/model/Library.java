@@ -59,28 +59,72 @@ public class Library {
 
 	}
 
+	// public void updateLibrary() {
+	// 	String[][] shelf = new String[MAX_ROWS][MAX_COLUMNS];
+	// 	int shelfRow = 1;
+	// 	int shelfColumn = 1;
+	// 	initShel(shelf);//inicializa la estanteria
+	// 	for (int i = 0; i < products.size(); i++) {//recorre la lista de productos
+	// 		shelf[shelfRow][shelfColumn] = " " + (products.get(i)).getId() + " |";// agrega el id del producto a la estanteria
+	// 		shelfColumn++;//aumenta la columna para agregar el siguiente producto
+	// 		if (shelfColumn == MAX_COLUMNS) {//si la columna es igual al maximo de columnas significa que ya no hay mas espacio en la fila
+	// 			shelfColumn = 1;//entonces inicializamos la columna en 0 de nuevo
+	// 			shelfRow++;//avanzamos a la siguiente fila
+	// 		}
+	// 		if (shelfRow == MAX_ROWS) {//si la fila es igual al maximo de filas significa que ya no hay mas espacio en la estanteria y se pasa a la siguiente estanteria
+	// 			library.add(shelf);//agrega la estanteria a la biblioteca
+	// 			shelf = new String[MAX_ROWS][MAX_COLUMNS];//crea una nueva estanteria
+	// 			initShel(shelf);//inicializa la nueva estanteria
+	// 			//reinicia los indices de la estanteria
+	// 			shelfRow = 1;
+	// 			shelfColumn = 1;
+	// 		}
+	// 	}
+	// 	library.add(shelf);//agrega la ultima estanteria a la biblioteca
+	// }
+
 	public void updateLibrary() {
 		String[][] shelf = new String[MAX_ROWS][MAX_COLUMNS];
+
+		int totalProducts = products.size();
+
+		int totalShelves = totalProducts / 25;
+
+		if (totalProducts % 25 != 0) {
+			totalShelves++;
+		}
+
 		int shelfRow = 1;
 		int shelfColumn = 1;
-		initShel(shelf);//inicializa la estanteria
-		for (int i = 0; i < products.size(); i++) {//recorre la lista de productos
-			shelf[shelfRow][shelfColumn] = " " + (products.get(i)).getId() + " |";// agrega el id del producto a la estanteria
-			shelfColumn++;//aumenta la columna para agregar el siguiente producto
-			if (shelfColumn == MAX_COLUMNS) {//si la columna es igual al maximo de columnas significa que ya no hay mas espacio en la fila
-				shelfColumn = 1;//entonces inicializamos la columna en 0 de nuevo
-				shelfRow++;//avanzamos a la siguiente fila
+
+		initShel(shelf);
+
+		for (int i = 0; i < products.size(); i++) {
+			shelf[shelfRow][shelfColumn] = " " + (products.get(i)).getId() + " |";
+			shelfColumn++;
+			if (shelfColumn == MAX_COLUMNS) {
+				shelfColumn = 1;
+				shelfRow++;
 			}
-			if (shelfRow == MAX_ROWS) {//si la fila es igual al maximo de filas significa que ya no hay mas espacio en la estanteria y se pasa a la siguiente estanteria
-				library.add(shelf);//agrega la estanteria a la biblioteca
-				shelf = new String[MAX_ROWS][MAX_COLUMNS];//crea una nueva estanteria
-				initShel(shelf);//inicializa la nueva estanteria
-				//reinicia los indices de la estanteria
+			if (shelfRow == MAX_ROWS) {
+				library.add(shelf);
+				shelf = new String[MAX_ROWS][MAX_COLUMNS];
+				initShel(shelf);
 				shelfRow = 1;
 				shelfColumn = 1;
 			}
 		}
-		library.add(shelf);//agrega la ultima estanteria a la biblioteca
+
+		library.add(shelf);
+
+		// for(int i = 1; i < MAX_ROWS; i++) {
+        //     for(int j = 1; j < MAX_COLUMNS; j++) {
+        //         shelf[i][j] =  " " + (products.get(i-1)).getId() + " |";
+        //     }
+        // }
+
+		// library.add(shelf);
+
 	}
 
 	public String showFirstShel() {
@@ -96,6 +140,7 @@ public class Library {
 		}
 		return msg;
 	}
+
 
 	/**
 	 * @param product

@@ -419,7 +419,6 @@ public class ReadX {
 		Book book = (Book) findProductByName(bookName);
 		User user = findUserById(userId);
 
-		//copilot una pregunta, por qué cuando compro un libro para los users precreados, no lo hace el programa? - por que 
 		if (book != null) {//if the book exists
 			if (user != null) {//if the user exists
 				if (user instanceof PremiumUser || ( (RegularUser)user ).getBooksPurchased() < 5) { //if the user is premium or regular and has not purchased 5 books

@@ -286,6 +286,7 @@ public class ReadXSystem {
 
 		do {
 			System.out.println("Please enter the book's name: ");
+			
 			bookName = sc.nextLine();
 	
 			if (controller.findProductByName(bookName) == null) {
