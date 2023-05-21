@@ -224,7 +224,7 @@ public class ReadX {
 
 		//register 1 premium user and 1 regular user
 		for (int i = 1; i < 3; i++) {
-			msg += "\n(" + (i) + ") " + registerUser("User" + i, "id" + i, 100.0, i);
+			msg += "\n(" + (i) + ") " + registerUser("User" + i, "id" + i, 1000000.0, i);
 		}
 
 		msg += "\n------------------\n"
@@ -233,7 +233,7 @@ public class ReadX {
 
 		//register 3 books by genre 
 		for (int i = 1; i < 4; i++) {
-			msg += "\n(" + (i) + ") " + registerBook("book" + i, 30, Calendar.getInstance(), "thing.jpg", 30.0, "Very good", i);
+			msg += "\n(" + (i) + ") " + registerBook("book" + i, 30, Calendar.getInstance(), "thing.jpg", 10.0, "Very good", i);
 		}
 
 		msg += "\n------------------\n"

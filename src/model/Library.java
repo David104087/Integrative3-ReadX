@@ -18,27 +18,6 @@ public class Library {
 	}
     
 
-    public void sortProductsByAscendingDate(ArrayList<BibliographicProduct> products) {
-
-		for (int i = 0; i < products.size(); i++) {
-			int minIndex = i;
-
-			for (int j = i + 1; j < products.size(); j++) {// j = i + 1 porque i ya esta ordenado
-				if (products.get(j).getPublicationDate().compareTo(products.get(minIndex).getPublicationDate()) < 0) {
-					minIndex = j;
-				}
-			}
-
-			// Product swap, exchanges the product on the right (j, the one smaller than i) with the one on the left (i)
-			BibliographicProduct temp = products.get(minIndex); // Temporarily stores the product at minIndex in a temporary variable called "temp"
-
-			products.set(minIndex, products.get(i)); // Places the product at position i in the minIndex(j) position to perform the swap
-
-			products.set(i, temp); // Places the product stored in "temp" at position i to complete the swap
-
-			
-		}
-	}
 
 	public void initShel(String[][] shelf) {
 
@@ -83,61 +62,21 @@ public class Library {
 	// 	library.add(shelf);//agrega la ultima estanteria a la biblioteca
 	// }
 
-	public void updateLibrary() {
-		String[][] shelf = new String[MAX_ROWS][MAX_COLUMNS];
-
-		int totalProducts = products.size();
-
-		int totalShelves = totalProducts / 25;
-
-		if (totalProducts % 25 != 0) {
-			totalShelves++;
-		}
-
-		int shelfRow = 1;
-		int shelfColumn = 1;
-
-		initShel(shelf);
-
-		for (int i = 0; i < products.size(); i++) {
-			shelf[shelfRow][shelfColumn] = " " + (products.get(i)).getId() + " |";
-			shelfColumn++;
-			if (shelfColumn == MAX_COLUMNS) {
-				shelfColumn = 1;
-				shelfRow++;
-			}
-			if (shelfRow == MAX_ROWS) {
-				library.add(shelf);
-				shelf = new String[MAX_ROWS][MAX_COLUMNS];
-				initShel(shelf);
-				shelfRow = 1;
-				shelfColumn = 1;
-			}
-		}
-
-		library.add(shelf);
-
-		// for(int i = 1; i < MAX_ROWS; i++) {
-        //     for(int j = 1; j < MAX_COLUMNS; j++) {
-        //         shelf[i][j] =  " " + (products.get(i-1)).getId() + " |";
-        //     }
-        // }
-
-		// library.add(shelf);
-
-	}
 
 	public String showFirstShel() {
 		String msg = "";
 
-		String[][] shelf = library.get(0);	
-
-		for (int i = 0; i < MAX_ROWS; i++) {
-			for (int j = 0; j < MAX_COLUMNS; j++) {
-				msg += shelf[i][j];
+		for (int i = 0; i < library.size(); i++) {
+			String[][] shelf = library.get(i);
+			for (int j = 0; j < MAX_ROWS; j++) {
+				for (int k = 0; k < MAX_COLUMNS; k++) {
+					msg += shelf[j][k];
+				}
+				msg += "\n";
 			}
 			msg += "\n";
 		}
+
 		return msg;
 	}
 
@@ -147,6 +86,110 @@ public class Library {
 	 */
 	public void addProduct(BibliographicProduct product) {
 		products.add(product);
-		updateLibrary();
+		sortProductsByAscendingDate(products);
+
+		boolean added = false;
+		for (int i = 0; i < library.size(); i++) {
+			String[][] shelf = library.get(i);
+			for (int j = 0; j < MAX_ROWS; j++) {
+				for (int k = 0; k < MAX_COLUMNS; k++) {
+					if (shelf[j][k].equals(" ___ |") && !added) {
+						shelf[j][k] = " " + product.getId() + " |";
+						added = true;
+					}
+				}
+			}
+		} 
+		if (!added) {
+			String[][] shelf = new String[MAX_ROWS][MAX_COLUMNS];
+			initShel(shelf);
+			shelf[1][1] = " " + product.getId() + " |";
+			library.add(shelf);
+		}
+
+		sortLibraryProductsByAscendingDate(library);
+
+		String msg = "";
+
+		for (int i = 0; i < library.size(); i++) {
+			String[][] shelf = library.get(i);
+			for (int j = 0; j < MAX_ROWS; j++) {
+				for (int k = 0; k < MAX_COLUMNS; k++) {
+					msg += shelf[j][k];
+				}
+				msg += "\n";
+			}
+			msg += "\n";
+		}
+
+		System.out.println(msg);
+
 	}
+
+	public void sortLibraryProductsByAscendingDate( ArrayList<String[][]> library) {
+		
+		for (int i = 0; i < library.size(); i++) {
+			int minIndex = i; // Stores the index of the smallest product
+
+			for (int j = i + 1; j < library.size(); j++) {// j = i + 1 porque i ya esta ordenado
+
+				String product1Id = library.get(j)[1][1].substring(1, 4);
+				BibliographicProduct product1 = findProductById(product1Id);
+
+				String product2Id = library.get(minIndex)[1][1].substring(1, 4);
+				BibliographicProduct product2 = findProductById(product2Id);
+
+				if (product1.getPublicationDate().compareTo(product2.getPublicationDate()) < 0) {
+					minIndex = j;
+				}
+
+			}
+
+			// Product swap, exchanges the product on the right (j, the one smaller than i) with the one on the left (i)
+			String[][] temp = library.get(minIndex); // Temporarily stores the product at minIndex in a temporary variable called "temp"
+
+			library.set(minIndex, library.get(i)); // Places the product at position i in the minIndex(j) position to perform the swap
+
+			library.set(i, temp); // Places the product stored in "temp" at position i to complete the swap
+
+		}
+	}
+
+	public void sortProductsByAscendingDate(ArrayList<BibliographicProduct> products) {
+
+		for (int i = 0; i < products.size(); i++) {
+			int minIndex = i;
+
+			for (int j = i + 1; j < products.size(); j++) {// j = i + 1 porque i ya esta ordenado
+				if (products.get(j).getPublicationDate().compareTo(products.get(minIndex).getPublicationDate()) < 0) {
+					minIndex = j;
+				}
+			}
+
+			// Product swap, exchanges the product on the right (j, the one smaller than i) with the one on the left (i)
+			BibliographicProduct temp = products.get(minIndex); // Temporarily stores the product at minIndex in a temporary variable called "temp"
+
+			products.set(minIndex, products.get(i)); // Places the product at position i in the minIndex(j) position to perform the swap
+
+			products.set(i, temp); // Places the product stored in "temp" at position i to complete the swap
+
+			
+		}
+	}
+
+	public BibliographicProduct findProductById(String id) {
+		BibliographicProduct product = null;
+		boolean found = false;
+		int i = 0;
+		while (i < products.size() && !found) {
+			if (products.get(i).getId().equals(id)) {
+				product = products.get(i);
+				found = true;
+			}
+			i++;
+		}
+		return product;
+	}
+	
+
 }
