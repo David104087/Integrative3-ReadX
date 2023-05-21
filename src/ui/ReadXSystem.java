@@ -484,7 +484,7 @@ public class ReadXSystem {
 		String id = "";
 		System.out.println("Enter the user id: ");
 		id = sc.nextLine();
-		System.out.println(controller.findUserById(id).getLibrary().showFirstShel()+ "\n--------------------------------------------------------------");
+		System.out.println(controller.findUserById(id).getLibrary().showLibrary()+ "\n--------------------------------------------------------------");
 
 	}
 
