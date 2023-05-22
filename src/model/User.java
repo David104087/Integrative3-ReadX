@@ -106,7 +106,7 @@ public abstract class User {
 
 		for (BibliographicProduct product : products) {
 			if (product instanceof Magazine) {
-				if (( product).getId().equals(magazineId)) {
+				if ((product).getId().equals(magazineId)) {
 					products.remove(product);
 					msg = "The user " + this.name + " has been unsubscribed of the magazine " + magazineId;
 					isFound = true;
@@ -161,6 +161,7 @@ public abstract class User {
 	public void addInvocie(Invoice invoice) {
 		invoices.add(invoice);
 	}
+
 
 
 }

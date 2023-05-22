@@ -56,7 +56,7 @@ public class ReadXSystem {
 	 * The function displays a menu with options for the program.
 	 */
 	public void menu() {
-		System.out.println("Welcome to ReadX, please select an option:  \n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Reading session \n(9) Exit");
+		System.out.println("Welcome to ReadX, please select an option:  \n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) Exit");
 	}
 
 	/**
@@ -97,9 +97,7 @@ public class ReadXSystem {
 			case 9: 
 				System.out.println("Bye!"); 
 				break; 
-			case 10:
-				sortProductsByAscendingDate();
-				break;
+
 			default: 
 				System.out.println("Invalid option"); 
 				break; 
@@ -399,17 +397,11 @@ public class ReadXSystem {
 		}
 	}
 
-
-	/**
-	 * This function allows a user to start a reading session for a specific product and navigate through
-	 * its pages.
-	 */
 	public void readingSession() {
 		String userId = "";
 		String productId = "";
-		String msg = "";
 		int option = 0;
-		String advertisement = "";
+		String content = "";
 
 		System.out.println("Please enter the user's id: ");
 		userId = sc.nextLine();
@@ -440,52 +432,27 @@ public class ReadXSystem {
 		String input = "";
 
 		if (option == 1) {
-
-			String[] sheets = controller.findProductById(productId).getSheets();
-			int currentPage = 0;
-			
-
 			while(!input.equals("b")) {
-				controller.findProductById(productId).setPagesRead(1); //update the pages read of the product
-				System.out.println("\n" + "Reading Session in progress: ");
-				advertisement = controller.displayAdvertising(userId, productId, currentPage+1);
-				System.out.println(advertisement);
-				System.out.println("\n" + "Reading: " + controller.findProductById(productId).getName() + "\n");
-				System.out.println("Reading page " + (currentPage + 1) + " of " + sheets.length + "\n");
-				System.out.println(sheets[currentPage]);
-				System.out.println("\n (s) Next page \n (a) Previous page \n (b) Finish reading)");
-				
+				content = controller.readingSession(input, userId, productId);
+				System.out.println(content);
 				input = sc.nextLine();
-
-				if (input.equals("s")) {
-					currentPage++;
-					if (currentPage == sheets.length) {
-						currentPage = 0;
-					}
-				} else if (input.equals("a")) {
-					if (currentPage == 0) {
-						System.out.println("You are in the first page");
-					} else {
-						currentPage--;
-					}
-				} else {
-					System.out.println("The reading session was finished");
-					break;
-				}
-
 			}
-			System.out.println(msg);
 		} else {
 			System.out.println("The reading session was not started");
 		}
 	}
 
-	public void sortProductsByAscendingDate() {
-		String id = "";
-		System.out.println("Enter the user id: ");
-		id = sc.nextLine();
-		System.out.println(controller.findUserById(id).getLibrary().showLibrary()+ "\n--------------------------------------------------------------");
+	// public void library() {
+	// 	String userId = "";
 
-	}
+
+	// 	System.out.println("Please enter the user's id: ");
+	// 	userId = sc.nextLine();
+
+	// 	controller.library(userId);
+
+
+
+	// }
 
 }

@@ -7,17 +7,19 @@ public class Library {
 	public  static final int MAX_COLUMNS = 6;
 	private ArrayList<BibliographicProduct> products;
 	private ArrayList<String[][]> library;//va a contener los ids de todos los productos
+	private ArrayList<ReadingSession> readingSessions;
+
 
     public Library() {
 		products = new ArrayList<BibliographicProduct>();
     	library = new ArrayList<String[][]>();
+		readingSessions = new ArrayList<ReadingSession>();
     }
 	
 	public ArrayList<BibliographicProduct> getProducts() {
 		return products;
 	}
     
-
 
 	public void initShel(String[][] shelf) {
 
@@ -64,15 +66,14 @@ public class Library {
 
 		sortProductsByAscendingDate();
 
-
-
+		ReadingSession readingSession = new ReadingSession(product.getId());
+		readingSessions.add(readingSession);
 
 		library.clear();
 		boolean added = false;
 		int index = 0;
 
 		while (added == false) {
-			System.out.println("TAMAÑO DE LA BIBLIOTECA: " + library.size());
 			for (int i = 0; i < library.size(); i++) {
 				String[][] shelf = library.get(i);
 				for (int j = 0; j < MAX_ROWS; j++) {
@@ -94,7 +95,6 @@ public class Library {
 			}
 
 		}
-
 
 	}
 
@@ -118,6 +118,15 @@ public class Library {
 
 			
 		}
+	}
+
+	public ReadingSession getReadingSession(String id) {
+		for (int i = 0; i < readingSessions.size(); i++) {
+			if (readingSessions.get(i).getId().equals(id)) {
+				return readingSessions.get(i);
+			}
+		}
+		return null;
 	}
 	
 

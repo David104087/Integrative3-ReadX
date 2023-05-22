@@ -245,6 +245,8 @@ public class ReadX {
 			msg += "\n(" + (i) + ") " + registerMagazine("magazine" + i, 25, Calendar.getInstance(), "thing1.jpg", 5.0, "Weekly", i);
 		}
 
+		subscribeToAMagazine("id2", "magazine3");
+
 		return msg;
 	}
 
@@ -556,6 +558,50 @@ public class ReadX {
 
 		return advertisement;
 
+	}
+
+
+	public String readingSession(String input, String userId, String productId) {
+		String msg = "";
+		String advertisement = "";
+
+		User user = findUserById(userId);
+		BibliographicProduct product = findProductById(productId);
+
+		String[] pages = product.getSheets();
+
+		ReadingSession readingSession = user.getLibrary().getReadingSession(productId);	
+
+		int currentPage = readingSession.getCurrentPage();
+
+		if (input.equalsIgnoreCase("s")) {
+			readingSession.setCurrentPage(1);
+			if (currentPage == pages.length) {
+				currentPage = 0;
+			}
+		} else if (input.equalsIgnoreCase("a")) {
+			if (currentPage == 0) {
+				msg += "You are in the first page";
+			} else {
+				readingSession.setCurrentPage(-1);
+			}
+		} 
+
+		product.setPagesRead(1);
+		msg += "\n" + "Reading Session in progress: " + "\n";
+
+		if (readingSession.getCurrentPage() != 0) {
+			msg += "\n" + "Welcome back to your reading session" + "\n";
+		}
+
+		msg += "\n" + displayAdvertising(userId, productId, readingSession.getCurrentPage()+1) + "\n";
+		msg += "\n" + "Reading: " + product.getName() + "\n";
+		msg += pages[readingSession.getCurrentPage()] + "\n";
+		msg += "\n (s) Next page \n (a) Previous page \n (b) Finish reading \n";
+
+
+		
+		return msg;
 	}
 
 }
