@@ -41,34 +41,6 @@ public abstract class User {
 		library = new Library();
 	}
 
-	
-
-	/**
-	 * This function searches for a product by ID in the list of books and magazines and returns the
-	 * matching product.
-	 * 
-	 * @param productId a String representing the ID of a product that needs to be found in a list of
-	 * products.
-	 * @return The method is returning a BibliographicProduct object, which is either a Book or a Magazine,
-	 * depending on the ID provided as a parameter. If no product is found with the given ID, the method
-	 * returns null.
-	 */
-	public BibliographicProduct findProductById(String productId) {
-		ArrayList<BibliographicProduct> products = library.getProducts();
-
-		for (int i = 0; i < products.size(); i++) {
-			if ((products).get(i) instanceof Magazine) {
-				if ( ( (Magazine) products.get(i) ).getId().equals(productId)) {
-					return products.get(i);
-				}
-			} else {
-				if ( ( (Book) products.get(i) ).getId().equals(productId)) {
-					return products.get(i);
-				}
-			} 
-		}
-		return null;
-	}
 
 	/**
 	 * The function returns a string representation of the User with formatted name, ID, linking date, and
@@ -88,34 +60,6 @@ public abstract class User {
 	}
 
 
-	/**
-	 * The function removes a magazine from the list of products and returns a message indicating that the
-	 * user has been unsubscribed from the magazine.
-	 * 
-	 * @param magazineId a String representing the ID of the magazine that the user wants to unsubscribe
-	 * from.
-	 * @return The method is returning a String message indicating whether the user has been unsubscribed
-	 * from a magazine or not. If the magazine is found and the user is unsubscribed, the message will
-	 * contain the name of the user and the magazine ID. If the magazine is not found, the message will be
-	 * an empty string.
-	 */
-	public String unsubscribeOfAMagazine(String magazineId) {
-		String msg = "";
-		boolean isFound = false;
-		ArrayList<BibliographicProduct> products = library.getProducts();
-
-		for (BibliographicProduct product : products) {
-			if (product instanceof Magazine) {
-				if ((product).getId().equals(magazineId)) {
-					products.remove(product);
-					msg = "The user " + this.name + " has been unsubscribed of the magazine " + magazineId;
-					isFound = true;
-					break;
-				}
-			}
-		}
-		return msg;
-	}
 
 
 	public String getName() {
@@ -161,6 +105,8 @@ public abstract class User {
 	public void addInvocie(Invoice invoice) {
 		invoices.add(invoice);
 	}
+
+
 
 
 

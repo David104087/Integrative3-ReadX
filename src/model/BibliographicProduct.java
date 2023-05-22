@@ -24,7 +24,7 @@ public abstract class BibliographicProduct {
 	private Calendar publicationDate;
 	/**
 	 * This attribute represents the URL of the product.
-	 */
+	 */ 
 	private String url;
 	/**
 	 * This attribute represents the price of the product.

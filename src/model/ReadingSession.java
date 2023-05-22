@@ -15,6 +15,10 @@ public class ReadingSession {
     }
 
     public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public void updateCurrentPage(int currentPage) {
         this.currentPage += currentPage;
     }
 

@@ -37,7 +37,7 @@ public class ReadX {
 	 */
 	public User findUserById(String userId) { 
 		for (int i = 0; i < users.size(); i++) {
-			if (users.get(i).getId().equals(userId)) {
+			if (users.get(i).getId().equalsIgnoreCase(userId)) {
 				return users.get(i);
 			}
 		}
@@ -57,11 +57,11 @@ public class ReadX {
 	public BibliographicProduct findProductById(String productId) {
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Magazine) {
-				if ( ( (Magazine) products.get(i) ).getId().equals(productId)) {
+				if ( ( (Magazine) products.get(i) ).getId().equalsIgnoreCase(productId)) {
 					return products.get(i);
 				}
 			} else {
-				if ( ( (Book) products.get(i) ).getId().equals(productId)) {
+				if ( ( (Book) products.get(i) ).getId().equalsIgnoreCase(productId)) {
 					return products.get(i);
 				}
 			} 
@@ -83,11 +83,11 @@ public class ReadX {
 	public BibliographicProduct findProductByName(String productName) {
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Magazine) {
-				if ( ( (Magazine) products.get(i) ).getName().equals(productName)) {
+				if ( ( (Magazine) products.get(i) ).getName().equalsIgnoreCase(productName)) {
 					return products.get(i);
 				}
 			} else {
-				if ( ( (Book) products.get(i) ).getName().equals(productName)) {
+				if ( ( (Book) products.get(i) ).getName().equalsIgnoreCase(productName)) {
 					return products.get(i);
 				}
 			} 
@@ -224,7 +224,7 @@ public class ReadX {
 
 		//register 1 premium user and 1 regular user
 		for (int i = 1; i < 3; i++) {
-			msg += "\n(" + (i) + ") " + registerUser("User" + i, "id" + i, 1000000.0, i);
+			msg += "\n(" + (i) + ") " + registerUser("User" + i, "id" + i, 9999999999999.9, i);
 		}
 
 		msg += "\n------------------\n"
@@ -245,7 +245,11 @@ public class ReadX {
 			msg += "\n(" + (i) + ") " + registerMagazine("magazine" + i, 25, Calendar.getInstance(), "thing1.jpg", 5.0, "Weekly", i);
 		}
 
-		subscribeToAMagazine("id2", "magazine3");
+		// subscribe User1 to 51 magazines 
+		for (int i = 0; i < 51 ; i++) {
+			subscribeToAMagazine("id1", "magazine3");
+		}
+
 
 		return msg;
 	}
@@ -382,14 +386,14 @@ public class ReadX {
 	
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Magazine) {
-				if (((Magazine) products.get(i)).getId().equals(productId)) {
+				if (((Magazine) products.get(i)).getId().equalsIgnoreCase(productId)) {
 					products.remove(i);
 					msg = "Magazine deleted successfully!!!";
 					productFound = true;
 					break;// get out of the loop after deleting the product
 				}
 			} else if (products.get(i) instanceof Book) {
-				if (((Book) products.get(i)).getId().equals(productId)) {
+				if (((Book) products.get(i)).getId().equalsIgnoreCase(productId)) {
 					products.remove(i);
 					msg = "Book deleted successfully!!!";
 					productFound = true;
@@ -516,7 +520,7 @@ public class ReadX {
 	 */
 	public String unsubscribeOfAMagazine(String userId, String magazineId) {
 
-		String msg = findUserById(userId).unsubscribeOfAMagazine(magazineId);
+		String msg = findUserById(userId).getLibrary().unsubscribeOfAMagazine(magazineId);
 
 		return msg;	
 	}
@@ -563,7 +567,6 @@ public class ReadX {
 
 	public String readingSession(String input, String userId, String productId) {
 		String msg = "";
-		String advertisement = "";
 
 		User user = findUserById(userId);
 		BibliographicProduct product = findProductById(productId);
@@ -574,34 +577,74 @@ public class ReadX {
 
 		int currentPage = readingSession.getCurrentPage();
 
+
 		if (input.equalsIgnoreCase("s")) {
-			readingSession.setCurrentPage(1);
-			if (currentPage == pages.length) {
-				currentPage = 0;
+			if (currentPage == pages.length-1) {
+				readingSession.setCurrentPage(0);
+			} else {
+				readingSession.updateCurrentPage(1);
 			}
 		} else if (input.equalsIgnoreCase("a")) {
 			if (currentPage == 0) {
-				msg += "You are in the first page";
+				msg += "You are in the first page!!!";
 			} else {
-				readingSession.setCurrentPage(-1);
+				readingSession.updateCurrentPage(-1);
 			}
 		} 
 
 		product.setPagesRead(1);
 		msg += "\n" + "Reading Session in progress: " + "\n";
 
-		if (readingSession.getCurrentPage() != 0) {
-			msg += "\n" + "Welcome back to your reading session" + "\n";
-		}
-
 		msg += "\n" + displayAdvertising(userId, productId, readingSession.getCurrentPage()+1) + "\n";
 		msg += "\n" + "Reading: " + product.getName() + "\n";
-		msg += pages[readingSession.getCurrentPage()] + "\n";
+		msg += "\n" + pages[readingSession.getCurrentPage()] + " of " + pages.length + "\n";
 		msg += "\n (s) Next page \n (a) Previous page \n (b) Finish reading \n";
 
 
 		
 		return msg;
+	}
+
+
+	public String library(String input, String userId) {
+		User user = findUserById(userId);
+
+		String shelf = "";
+
+		if (user.getLibrary().getShelfs().size() == 0) {
+			shelf = "Your library is empty!!!";
+			shelf += "\n" + "Press (e) to go back to the main menu";
+		} else {
+
+			shelf = user.getName() + "'s library: \n";
+			
+			Library library = user.getLibrary();
+	
+			int currentShelf = library.getCurrentShelf();
+	
+			if (input.equalsIgnoreCase("s")) {
+				if (currentShelf == library.getShelfs().size()-1) {
+					library.setCurrentShelf(0);
+				} else {
+					library.updateCurrentShelf(1);
+				}
+			} else if (input.equalsIgnoreCase("a")) {
+				if (currentShelf == 0) {
+					shelf += "\n You are in the first shelf!!! \n";
+				} else {
+					library.updateCurrentShelf(-1);
+				}
+			}
+	
+			shelf += "\n" + "Shelf: " + (library.getCurrentShelf()+1) + " of " + library.getShelfs().size() + "\n";
+			shelf += library.showShelf() + "\n";
+			shelf += "\n (s) Next shelf \n (a) Previous shelf \n (e) Exit \n";
+			shelf += "\nPlease enter the product's id to start a reading session: \n";
+
+		}
+
+		return shelf;
+
 	}
 
 }

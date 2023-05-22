@@ -92,7 +92,7 @@ public class ReadXSystem {
 				unsubscribeOfAMagazine(); 
 				break; 
 			case 8: 
-				readingSession(); 
+				library(); 
 				break; 
 			case 9: 
 				System.out.println("Bye!"); 
@@ -368,91 +368,55 @@ public class ReadXSystem {
 		System.out.println("Please enter the magazine's id: ");
 		magazineId = sc.nextLine();
 
-		try {
-			if (controller.findUserById(userId).findProductById(magazineId) == null) {
-				System.out.println("The user " + userId + " is not subscribed to the magazine " + magazineId);
-				return;//return to the main menu
-			}
-		} catch (Exception e) {
+		if (controller.findUserById(userId) == null) {
 			System.out.println("The user does not exist");
-			return;//return to the main menu
-		}
-
-		
-		if (controller.findProductById(magazineId) == null) {
+		} else if (controller.findProductById(magazineId) == null) {
 			System.out.println("The magazine does not exist");
-			return;//return to the main menu
-		}
-		
-		System.out.println("Magazine information: \n" + controller.findProductById(magazineId).toString() + "\n");
-		System.out.println("Want to unsubscribe to this magazine? \n(1) Yes \n(2) No");
-		option = validateIntegerInput();
-		
-
-		if (option == 1) {
-			msg = controller.unsubscribeOfAMagazine(userId, magazineId);
-			System.out.println(msg);
+		} else if (controller.findUserById(userId).getLibrary().findProductById(magazineId) == null) {
+			System.out.println("The user " + userId + " is not subscribed to the magazine " + magazineId);
 		} else {
-			System.out.println("The magazine was not unsubscribed");
+			System.out.println("Magazine information: \n" + controller.findProductById(magazineId).toString() + "\n");
+			System.out.println("Want to unsubscribe to this magazine? \n(1) Yes \n(2) No");
+			option = validateIntegerInput();
+			
+	
+			if (option == 1) {
+				msg = controller.unsubscribeOfAMagazine(userId, magazineId);
+				System.out.println(msg);
+			} else {
+				System.out.println("The magazine was not unsubscribed");
+			}
 		}
+		
+	
 	}
 
-	public void readingSession() {
+	public void library() {
 		String userId = "";
-		String productId = "";
-		int option = 0;
+		String shelf = "";
 		String content = "";
+		String productId = "";
+
 
 		System.out.println("Please enter the user's id: ");
 		userId = sc.nextLine();
 
-		System.out.println("Please enter the product's id: ");
-		productId = sc.nextLine();
-
-		try {
-			if (controller.findUserById(userId).findProductById(productId) == null) {
-				System.out.println("The user " + userId + " does not have the product " + productId);
-				return;//return to the main menu
-			}
-		} catch (Exception e) {
-			System.out.println("The user does not exist");
-			return;//return to the main menu
-		}
-
-		try {
-			System.out.println("Product information: \n" + controller.findProductById(productId).toString() + "\n");
-		} catch (Exception e) {
-			System.out.println("The product does not exist");
-			return;//return to the main menu
-		}
-
-		System.out.println("Want to start reading this book? \n(1) Yes \n(2) No \n");
-		option = validateIntegerInput();
-
 		String input = "";
 
-		if (option == 1) {
-			while(!input.equals("b")) {
-				content = controller.readingSession(input, userId, productId);
-				System.out.println(content);
-				input = sc.nextLine();
+		while(!input.equalsIgnoreCase("E")) {
+			shelf = controller.library(input, userId);
+			System.out.println(shelf);
+			input = sc.nextLine();
+			if (input.length() == 3) {
+				productId = input;
+				while(!input.equalsIgnoreCase("B")) {
+					content = controller.readingSession(input, userId, productId);
+					System.out.println(content);
+					input = sc.nextLine();
+				}
 			}
-		} else {
-			System.out.println("The reading session was not started");
 		}
+
 	}
-
-	// public void library() {
-	// 	String userId = "";
-
-
-	// 	System.out.println("Please enter the user's id: ");
-	// 	userId = sc.nextLine();
-
-	// 	controller.library(userId);
-
-
-
-	// }
 
 }
