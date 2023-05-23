@@ -606,6 +606,18 @@ public class ReadX {
 	}
 
 
+	/**
+	 * The function displays the user's library and allows them to navigate through their shelves and
+	 * select a product to start a reading session.
+	 * 
+	 * @param input A string representing the user's input, which can be "s" to move to the next shelf, "a"
+	 * to move to the previous shelf, or the ID of a product to start a reading session.
+	 * @param userId The ID of the user whose library is being accessed.
+	 * @return The method is returning a String that represents the user's library, including the current
+	 * shelf and its contents, as well as options to navigate to the next or previous shelf, exit the
+	 * library, and start a reading session by entering a product's id. If the user's library is empty, the
+	 * method returns a message indicating so and an option to go back to the main menu.
+	 */
 	public String library(String input, String userId) {
 		User user = findUserById(userId);
 
@@ -646,5 +658,59 @@ public class ReadX {
 		return shelf;
 
 	}
+
+	public String viewTotalPagesRead() {
+		String msg = "";
+		int totalPagesReadBooks = 0;
+		int totalPagesReadMagazines = 0;
+
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				totalPagesReadMagazines += ( (Magazine) products.get(i) ).getPagesRead();
+			} else {
+				totalPagesReadBooks += ( (Book) products.get(i) ).getPagesRead();
+			} 
+		}
+
+		msg += "\n Total pages read: \n Books: " + totalPagesReadBooks + "\n Magazines: " + totalPagesReadMagazines + "\n";
+	
+
+		return msg;
+	}
+
+	// public String viewMostReadGenreAndCategory() {
+	// 	String msg = "";
+
+	// 	int[] genres = new int[5];
+	// 	int[] categories = new int[5];
+
+	// 	for (int i = 0; i < products.size(); i++) {
+	// 		if (products.get(i) instanceof Magazine) {
+	// 			categories[ ((Magazine) products.get(i)).getCategory() ] += 1;
+	// 		} else {
+	// 			genres[ ((Book) products.get(i)).getGenre() ] += 1;
+	// 		} 
+	// 	}
+
+	// 	int maxGenre = 0;
+	// 	int maxCategory = 0;
+
+	// 	for (int i = 0; i < genres.length; i++) {
+	// 		if (genres[i] > genres[maxGenre]) {
+	// 			maxGenre = i;
+	// 		}
+	// 	}
+
+	// 	for (int i = 0; i < categories.length; i++) {
+	// 		if (categories[i] > categories[maxCategory]) {
+	// 			maxCategory = i;
+	// 		}
+	// 	}
+
+	// 	msg += "\n Most read genre: " + Book.GENRES[maxGenre] + "\n";
+	// 	msg += "\n Most read category: " + Magazine.CATEGORIES[maxCategory] + "\n";
+
+	// 	return msg;
+	// }
 
 }

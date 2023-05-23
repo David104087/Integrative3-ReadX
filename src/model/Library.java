@@ -168,7 +168,7 @@ public class Library {
 			String[][] shelf = shelfs.get(i);
 			for (int j = 0; j < MAX_ROWS; j++) {
 				for (int k = 0; k < MAX_COLUMNS; k++) {
-					if (shelf[j][k].equals(" ___ |")) {
+					if (shelf[j][k].equals(" ___ |") && index < products.size()) {
 						shelf[j][k] = " " + products.get(index).getId() + " |";
 						index++;
 					}

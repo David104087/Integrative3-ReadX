@@ -59,7 +59,7 @@ public class ReadXSystem {
 		System.out.println("--------------------------------------------");
 		System.out.println("Welcome to ReadX, please select an option:  ");
 		System.out.println("--------------------------------------------");
-		System.out.println("\n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) Exit");
+		System.out.println("\n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) Exit \n(10) View total pages read \n (11) View most read genre and category 		 \n Select an option:");
 
 	}
 
@@ -101,7 +101,12 @@ public class ReadXSystem {
 			case 9: 
 				System.out.println("Bye!"); 
 				break; 
-
+			case 10:
+				viewTotalPagesRead();
+				break;
+			// case 11:
+			// 	viewMostReadGenreAndCategory();
+			// 	break;
 			default: 
 				System.out.println("Invalid option"); 
 				break; 
@@ -422,5 +427,13 @@ public class ReadXSystem {
 		}
 
 	}
+
+	public void viewTotalPagesRead() {
+		System.out.println(controller.viewTotalPagesRead());
+	}
+
+	// public void viewMostReadGenreAndCategory() {
+	// 	System.out.println(controller.viewMostReadGenreAndCategory());
+	// }
 
 }
