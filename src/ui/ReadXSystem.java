@@ -56,7 +56,11 @@ public class ReadXSystem {
 	 * The function displays a menu with options for the program.
 	 */
 	public void menu() {
-		System.out.println("Welcome to ReadX, please select an option:  \n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) Exit");
+		System.out.println("--------------------------------------------");
+		System.out.println("Welcome to ReadX, please select an option:  ");
+		System.out.println("--------------------------------------------");
+		System.out.println("\n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) Exit");
+
 	}
 
 	/**
