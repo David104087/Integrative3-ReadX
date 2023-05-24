@@ -31,7 +31,7 @@ public class Library {
 			shelf[i][0] = String.valueOf(i-1) + " |";
 		}
 
-		shelf[0][0] = "   ";
+		shelf[0][0] = "Y/X";
 
 		for (int i = 1; i < MAX_ROWS; i++) {
 			for (int j = 0; j < MAX_COLUMNS; j++) {

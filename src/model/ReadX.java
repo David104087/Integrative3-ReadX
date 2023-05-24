@@ -217,6 +217,8 @@ public class ReadX {
 	public String initReadX() {
 
 		String msg = "";
+		Calendar calendar = Calendar.getInstance();
+
 
 		msg += "------------------\n"
 				+ "Users:\n"
@@ -233,7 +235,8 @@ public class ReadX {
 
 		//register 3 books by genre 
 		for (int i = 1; i < 4; i++) {
-			msg += "\n(" + (i) + ") " + registerBook("book" + i, 30, Calendar.getInstance(), "thing.jpg", 10.0, "Very good", i);
+			calendar.add(Calendar.DAY_OF_MONTH, i);
+			msg += "\n(" + (i) + ") " + registerBook("book" + i, 30, calendar, "thing.jpg", 10.0, "Very good", i);
 		}
 
 		msg += "\n------------------\n"
@@ -242,14 +245,20 @@ public class ReadX {
 
 		//register 3 magazines by category
 		for (int i = 1; i < 4; i++) {
-			msg += "\n(" + (i) + ") " + registerMagazine("magazine" + i, 25, Calendar.getInstance(), "thing1.jpg", 5.0, "Weekly", i);
+			calendar.add(Calendar.DAY_OF_MONTH, i);
+			msg += "\n(" + (i) + ") " + registerMagazine("magazine" + i, 25, calendar, "thing1.jpg", 5.0, "Weekly", i);
 		}
 
 		// subscribe User1 to 51 magazines 
 		for (int i = 0; i < 51 ; i++) {
-			subscribeToAMagazine("id1", "magazine3");
+			if (i % 2 == 0) {
+				subscribeToAMagazine("id1", "magazine3");
+			} else if (i % 3 == 0) {
+				buyBook("id1", "book3");
+			} else {
+				subscribeToAMagazine("id1", "magazine2");
+			}
 		}
-
 
 		return msg;
 	}
@@ -569,6 +578,25 @@ public class ReadX {
 		String msg = "";
 
 		User user = findUserById(userId);
+
+		if (productId.contains(",")) {
+			String[] coordinates = productId.split(",");//split the input into an array of strings based on the comma
+			// convert the strings into integers
+			int x = Integer.parseInt(coordinates[0]);
+			int y = Integer.parseInt(coordinates[1]);
+
+
+			Library userLibrary = user.getLibrary();
+			ArrayList<String[][]> shelfs = userLibrary.getShelfs();
+			String[][] shelf = shelfs.get(userLibrary.getCurrentShelf());
+			//get the id of the product in the selected cell
+			productId = shelf[y+1][x+1].substring(1,4);// add 1 to the x coordinate because the first row and column are the numbers of the rows and column
+			System.out.println("AQUIIIII " + productId);	
+			String idAntes = shelf[x+1][y+1];
+			System.out.println("AQUIIIII2222 " + idAntes);
+
+		} 
+
 		BibliographicProduct product = findProductById(productId);
 
 		String[] pages = product.getSheets();
@@ -596,12 +624,13 @@ public class ReadX {
 		msg += "\n" + "Reading Session in progress: " + "\n";
 
 		msg += "\n" + displayAdvertising(userId, productId, readingSession.getCurrentPage()+1) + "\n";
-		msg += "\n" + "Reading: " + product.getName() + "\n";
+		msg += "\n" + "Reading: " + product.getName() + " ID: " + product.getId() + "\n";
 		msg += "\n" + pages[readingSession.getCurrentPage()] + " of " + pages.length + "\n";
 		msg += "\n (s) Next page \n (a) Previous page \n (b) Finish reading \n";
-
-
+	
+	
 		
+
 		return msg;
 	}
 
@@ -651,7 +680,7 @@ public class ReadX {
 			shelf += "\n" + "Shelf: " + (library.getCurrentShelf()+1) + " of " + library.getShelfs().size() + "\n";
 			shelf += library.showShelf() + "\n";
 			shelf += "\n (s) Next shelf \n (a) Previous shelf \n (e) Exit \n";
-			shelf += "\nPlease enter the product's id to start a reading session: \n";
+			shelf += "\nPlease enter the product's id or coordinates x,y (ex: '2,4')to start a reading session: \n";
 
 		}
 
@@ -678,39 +707,25 @@ public class ReadX {
 		return msg;
 	}
 
-	// public String viewMostReadGenreAndCategory() {
+	// public String viewMostReadGenreAndCategory() { 
 	// 	String msg = "";
 
-	// 	int[] genres = new int[5];
-	// 	int[] categories = new int[5];
+
+
 
 	// 	for (int i = 0; i < products.size(); i++) {
 	// 		if (products.get(i) instanceof Magazine) {
-	// 			categories[ ((Magazine) products.get(i)).getCategory() ] += 1;
+	// 			totalPagesReadMagazines += ( (Magazine) products.get(i) ).getPagesRead();
 	// 		} else {
-	// 			genres[ ((Book) products.get(i)).getGenre() ] += 1;
+	// 			totalPagesReadBooks += ( (Book) products.get(i) ).getPagesRead();
 	// 		} 
 	// 	}
 
-	// 	int maxGenre = 0;
-	// 	int maxCategory = 0;
+		
 
-	// 	for (int i = 0; i < genres.length; i++) {
-	// 		if (genres[i] > genres[maxGenre]) {
-	// 			maxGenre = i;
-	// 		}
-	// 	}
-
-	// 	for (int i = 0; i < categories.length; i++) {
-	// 		if (categories[i] > categories[maxCategory]) {
-	// 			maxCategory = i;
-	// 		}
-	// 	}
-
-	// 	msg += "\n Most read genre: " + Book.GENRES[maxGenre] + "\n";
-	// 	msg += "\n Most read category: " + Magazine.CATEGORIES[maxCategory] + "\n";
 
 	// 	return msg;
 	// }
+
 
 }
