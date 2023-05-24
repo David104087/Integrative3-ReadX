@@ -148,11 +148,15 @@ public class Library {
 		this.currentShelf += currentShelf;
 	}
 
-	/**
-	 * The function updates the library by sorting products by ascending date, initializing shelfs, and
-	 * filling them with product IDs.
-	 */
-	public void updateLibrary() {
+
+	public void updateLibrary(String productId) {
+
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i).getId().equals(productId)) {
+				products.remove(i);
+			}
+		}
+
 		sortProductsByAscendingDate();
 		shelfs.clear();
 		//init shelfs
@@ -169,7 +173,11 @@ public class Library {
 			for (int j = 0; j < MAX_ROWS; j++) {
 				for (int k = 0; k < MAX_COLUMNS; k++) {
 					if (shelf[j][k].equals(" ___ |") && index < products.size()) {
-						shelf[j][k] = " " + products.get(index).getId() + " |";
+						if (products.get(index) != null) {
+							shelf[j][k] = " " + products.get(index).getId() + " |";
+						} else {
+							shelf[j][k] = " ___ |";
+						}
 						index++;
 					}
 				}
@@ -184,7 +192,7 @@ public class Library {
 		if (product != null) {
 			products.remove(product);
 			msg = "The product has been removed from the library.";
-			updateLibrary();
+			updateLibrary(magazineId);
 		} else {
 			msg = "The product could not be found.";
 		}

@@ -396,6 +396,8 @@ public class ReadX {
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Magazine) {
 				if (((Magazine) products.get(i)).getId().equalsIgnoreCase(productId)) {
+					BibliographicProduct product = products.get(i);
+					product = null;
 					products.remove(i);
 					msg = "Magazine deleted successfully!!!";
 					productFound = true;
@@ -403,6 +405,9 @@ public class ReadX {
 				}
 			} else if (products.get(i) instanceof Book) {
 				if (((Book) products.get(i)).getId().equalsIgnoreCase(productId)) {
+					products.remove(i);
+					BibliographicProduct product = products.get(i);
+					product = null;
 					products.remove(i);
 					msg = "Book deleted successfully!!!";
 					productFound = true;
@@ -413,6 +418,10 @@ public class ReadX {
 	
 		if (!productFound) {
 			msg = "Product not found";
+		}
+
+		for (int i = 0; i < users.size(); i++) {
+			users.get(i).getLibrary().updateLibrary(productId);
 		}
 	
 		return msg;
@@ -707,25 +716,54 @@ public class ReadX {
 		return msg;
 	}
 
-	// public String viewMostReadGenreAndCategory() { 
-	// 	String msg = "";
+	public String viewMostReadGenreAndCategory() { 
+		String msg = "";
+
+		String mostRead = "";
+		int totalPagesReadGenre = 0;
+		int totalPagesReadCategory = 0;
+
+		// pages read genres
+		int pagesReadScienceFiction = 0;
+		int pagesReadFantasy = 0;
+		int pagesReadHistoricalNovel = 0;
+
+		//pages read categories
+		int pagesReadVarities = 0;
+		int pagesReadDesing = 0;
+		int pagesReadScientific = 0;
 
 
+		// for (int i = 0; i < products.size(); i++) {
+		// 	if (products.get(i) instanceof Magazine) {
+		// 		totalPagesReadCategory += ( (Magazine) products.get(i) ).getPagesRead();
+		// 		if ( ( (Magazine) products.get(i) ).getCategory().equalsIgnoreCase("varities") ) {
+		// 			pagesReadVarities += ( (Magazine) products.get(i) ).getPagesRead();
+		// 		} else if ( ( (Magazine) products.get(i) ).getCategory().equalsIgnoreCase("desing") ) {
+		// 			pagesReadDesing += ( (Magazine) products.get(i) ).getPagesRead();
+		// 		} else if ( ( (Magazine) products.get(i) ).getCategory().equalsIgnoreCase("scientific") ) {
+		// 			pagesReadScientific += ( (Magazine) products.get(i) ).getPagesRead();
+		// 		}
+		// 	} else {
+		// 		totalPagesReadGenre += ( (Book) products.get(i) ).getPagesRead();
+		// 		if ( ( (Book) products.get(i) ).getGenre().equalsIgnoreCase("science fiction") ) {
+		// 			pagesReadScienceFiction += ( (Book) products.get(i) ).getPagesRead();
+		// 		} else if ( ( (Book) products.get(i) ).getGenre().equalsIgnoreCase("fantasy") ) {
+		// 			pagesReadFantasy += ( (Book) products.get(i) ).getPagesRead();
+		// 		} else if ( ( (Book) products.get(i) ).getGenre().equalsIgnoreCase("historical novel") ) {
+		// 			pagesReadHistoricalNovel += ( (Book) products.get(i) ).getPagesRead();
+		// 		}
 
-
-	// 	for (int i = 0; i < products.size(); i++) {
-	// 		if (products.get(i) instanceof Magazine) {
-	// 			totalPagesReadMagazines += ( (Magazine) products.get(i) ).getPagesRead();
-	// 		} else {
-	// 			totalPagesReadBooks += ( (Book) products.get(i) ).getPagesRead();
-	// 		} 
-	// 	}
+		// 	} else {
+		// 		totalPagesReadBooks += ( (Book) products.get(i) ).getPagesRead();
+		// 	} 
+		// }
 
 		
 
 
-	// 	return msg;
-	// }
+		return msg;
+	}
 
 
 }
