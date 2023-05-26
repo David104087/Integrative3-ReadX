@@ -719,9 +719,8 @@ public class ReadX {
 	public String viewMostReadGenreAndCategory() { 
 		String msg = "";
 
-		String mostRead = "";
-		int totalPagesReadGenre = 0;
-		int totalPagesReadCategory = 0;
+		String genreMostRead = ""; // name of the most read genre
+		String categoryMostRead = ""; // name of the most read category
 
 		// pages read genres
 		int pagesReadScienceFiction = 0;
@@ -734,36 +733,155 @@ public class ReadX {
 		int pagesReadScientific = 0;
 
 
-		// for (int i = 0; i < products.size(); i++) {
-		// 	if (products.get(i) instanceof Magazine) {
-		// 		totalPagesReadCategory += ( (Magazine) products.get(i) ).getPagesRead();
-		// 		if ( ( (Magazine) products.get(i) ).getCategory().equalsIgnoreCase("varities") ) {
-		// 			pagesReadVarities += ( (Magazine) products.get(i) ).getPagesRead();
-		// 		} else if ( ( (Magazine) products.get(i) ).getCategory().equalsIgnoreCase("desing") ) {
-		// 			pagesReadDesing += ( (Magazine) products.get(i) ).getPagesRead();
-		// 		} else if ( ( (Magazine) products.get(i) ).getCategory().equalsIgnoreCase("scientific") ) {
-		// 			pagesReadScientific += ( (Magazine) products.get(i) ).getPagesRead();
-		// 		}
-		// 	} else {
-		// 		totalPagesReadGenre += ( (Book) products.get(i) ).getPagesRead();
-		// 		if ( ( (Book) products.get(i) ).getGenre().equalsIgnoreCase("science fiction") ) {
-		// 			pagesReadScienceFiction += ( (Book) products.get(i) ).getPagesRead();
-		// 		} else if ( ( (Book) products.get(i) ).getGenre().equalsIgnoreCase("fantasy") ) {
-		// 			pagesReadFantasy += ( (Book) products.get(i) ).getPagesRead();
-		// 		} else if ( ( (Book) products.get(i) ).getGenre().equalsIgnoreCase("historical novel") ) {
-		// 			pagesReadHistoricalNovel += ( (Book) products.get(i) ).getPagesRead();
-		// 		}
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				if ( ( (Magazine) products.get(i) ).getCategory().getName().equalsIgnoreCase("Varities") ) {
+					pagesReadVarities += ( (Magazine) products.get(i) ).getPagesRead();
+				} else if ( ( (Magazine) products.get(i) ).getCategory().getName().equalsIgnoreCase("Desing") ) {
+					pagesReadDesing += ( (Magazine) products.get(i) ).getPagesRead();
+				} else if ( ( (Magazine) products.get(i) ).getCategory().getName().equalsIgnoreCase("Scientific") ) {
+					pagesReadScientific += ( (Magazine) products.get(i) ).getPagesRead();
+				}
+			} else {
+				if ( ( (Book) products.get(i) ).getGenre().getName().equalsIgnoreCase("Science fiction") ) {
+					pagesReadScienceFiction += ( (Book) products.get(i) ).getPagesRead();
+				} else if ( ( (Book) products.get(i) ).getGenre().getName().equalsIgnoreCase("Fantasy") ) {
+					pagesReadFantasy += ( (Book) products.get(i) ).getPagesRead();
+				} else if ( ( (Book) products.get(i) ).getGenre().getName().equalsIgnoreCase("Historical novel") ) {
+					pagesReadHistoricalNovel += ( (Book) products.get(i) ).getPagesRead();
+				}
+			} 
+		}
 
-		// 	} else {
-		// 		totalPagesReadBooks += ( (Book) products.get(i) ).getPagesRead();
-		// 	} 
-		// }
+		int pagesGenreMostRead = 0;
+		//The most read genre
+		if (pagesReadScienceFiction > pagesReadFantasy && pagesReadScienceFiction > pagesReadHistoricalNovel) {
+			genreMostRead = "Science fiction";
+			pagesGenreMostRead = pagesReadScienceFiction;
+		} else if (pagesReadFantasy > pagesReadScienceFiction && pagesReadFantasy > pagesReadHistoricalNovel) {
+			genreMostRead = "Fantasy";
+			pagesGenreMostRead = pagesReadFantasy;
+		} else if (pagesReadHistoricalNovel > pagesReadScienceFiction && pagesReadHistoricalNovel > pagesReadFantasy) {
+			genreMostRead = "Historical novel";
+			pagesGenreMostRead = pagesReadHistoricalNovel;
+		} else {
+			genreMostRead = "There is no most read genre";
+		}
 
-		
+		int pagesCategoryMostRead = 0;
+		//The most read category
+		if (pagesReadVarities > pagesReadDesing && pagesReadVarities > pagesReadScientific) {
+			categoryMostRead = "Varities";
+			pagesCategoryMostRead = pagesReadVarities;
+		} else if (pagesReadDesing > pagesReadVarities && pagesReadDesing > pagesReadScientific) {
+			categoryMostRead = "Desing";
+			pagesCategoryMostRead = pagesReadDesing;
+		} else if (pagesReadScientific > pagesReadVarities && pagesReadScientific > pagesReadDesing) {
+			categoryMostRead = "Scientific";
+			pagesCategoryMostRead = pagesReadScientific;
+		} else {
+			categoryMostRead = "There is no most read category";
+		}
+
+		msg = "The genre most read is: " + genreMostRead + "\n" + "Pages read: " + pagesGenreMostRead + "\n" + 
+		"The category most read is: " + categoryMostRead + "\n" + "Pages read: " + pagesCategoryMostRead + "\n";
 
 
 		return msg;
 	}
+
+	public String viewTop5() {
+		String msg = "";
+
+		ArrayList<BibliographicProduct> top5Books = new ArrayList<BibliographicProduct>();
+
+		ArrayList<BibliographicProduct> top5Magazines = new ArrayList<BibliographicProduct>();
+
+		//Separate the books from the magazines
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				top5Magazines.add(products.get(i));
+			} else {
+				top5Books.add(products.get(i));
+			}
+			
+		}
+
+		top5Books = bubbleSort(top5Books);// sort the books by pages read
+		top5Magazines = bubbleSort(top5Magazines); // sort the magazines by pages read
+
+		msg += "\n Top 5 most read books on the platform: \n";
+
+		for (int i = 0; i < top5Books.size() && i < 5; i++) {
+			msg += "\n" + (i+1) + ". " + top5Books.get(i).getName() + 
+			"\nPages read: " + top5Books.get(i).getPagesRead() + 
+			"\nGenre: " + ( (Book) top5Books.get(i) ).getGenre().getName() + "\n";
+		}
+
+
+		msg += "\n Top 5 most read magazines on the platform: \n";
+
+		for (int i = 0; i < top5Magazines.size() && i < 5; i++) {
+			msg += "\n" + (i+1) + ". " + top5Magazines.get(i).getName() + 
+			"\nPages read: " + top5Magazines.get(i).getPagesRead() +
+			"\nCategory: " + ( (Magazine) top5Magazines.get(i) ).getCategory().getName() + "\n";
+		}
+
+		return msg;
+	}
+
+	public ArrayList<BibliographicProduct> bubbleSort(ArrayList<BibliographicProduct> products) {
+
+		for (int i = 0; i < products.size(); i++) {
+			for (int j = 0; j < products.size()-1; j++) {
+				if (products.get(j).getPagesRead() < products.get(j+1).getPagesRead()) {
+					BibliographicProduct temp = products.get(j);
+					products.set(j, products.get(j+1));
+					products.set(j+1, temp);
+				}
+			}
+		}
+		return products;
+	}
+
+	public String booksSoldByGenre() {
+		String msg = "";
+
+		int scienceFiction = 0;
+		int fantasy = 0;
+		int historicalNovel = 0;
+
+		int scienceFictionBooksSold = 0;
+		int fantasyBooksSold = 0;
+		int historicalNovelBooksSold = 0;
+
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Book) {
+				Book book = (Book) products.get(i);
+				if ( book.getGenre().getName().equalsIgnoreCase("Science fiction") && book.getUnitsSold() > 0 ) {
+					scienceFiction++;
+					scienceFictionBooksSold += book.getUnitsSold();
+				} else if ( book.getGenre().getName().equalsIgnoreCase("Fantasy") && book.getUnitsSold() > 0 ) {
+					fantasy++;
+					fantasyBooksSold += book.getUnitsSold();
+				} else if ( book.getGenre().getName().equalsIgnoreCase("Historical novel") && book.getUnitsSold() > 0 ) {
+					historicalNovel++;
+					historicalNovelBooksSold += book.getUnitsSold();
+				}
+			}
+		}
+
+		msg = "Books sold by genre: \n" + 
+		"- Science fiction: " + scienceFiction + "\n" + 
+		"Units sold: " + scienceFictionBooksSold + "\n" +
+		"- Fantasy: " + fantasy + "\n" + 
+		"Units sold: " + fantasyBooksSold + "\n" +
+		"- Historical novel: " + historicalNovel + "\n" +
+		"Units sold: " + historicalNovelBooksSold + "\n";
+
+		return msg;
+	}
+
 
 
 }
