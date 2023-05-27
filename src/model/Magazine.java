@@ -10,10 +10,7 @@ public class Magazine extends BibliographicProduct {
 	 * This attribute represents the periodicity of the magazine.
 	 */
 	private String periodicity;
-	/**
-	 * This attribute represents the subscriptions of the magazine.
-	 */
-	private int subscriptions;
+
 	/**
 	 * This attribute represents the category of the magazine.
 	 */
@@ -60,15 +57,6 @@ public class Magazine extends BibliographicProduct {
 
 	public void setPeriodicity(String periodicity) {
 		this.periodicity = periodicity;
-	}
-
-
-	public int getSubscriptions() {
-		return this.subscriptions;
-	}
-
-	public void setSubscriptions(int subscriptions) {
-		this.subscriptions += subscriptions;
 	}
 
 	public Category getCategory() {

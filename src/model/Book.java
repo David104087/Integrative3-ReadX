@@ -10,14 +10,12 @@ public class Book extends BibliographicProduct {
 	 * This attribute represents the review of the book.
 	 */
 	private String review;
-	/**
-	 * This attribute represents the number of units sold of the book.
-	 */
-	private int unitsSold;
+
 	/**
 	 * This attribute represents the genre of the book.
 	 */
 	private Genre genre;
+
 
 	public Book(String name, int pages, Calendar publicationDate, String url, double price, String review, Genre genre) {
 		super(name, pages, publicationDate, url, price);
@@ -74,13 +72,6 @@ public class Book extends BibliographicProduct {
 		this.review = review;
 	}
 
-	public int getUnitsSold() {
-		return this.unitsSold;
-	}
-
-	public void setUnitsSold(int unitsSold) {
-		this.unitsSold += unitsSold;
-	}
 
 	public Genre getGenre() {
 		return this.genre;

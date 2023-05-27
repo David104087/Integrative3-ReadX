@@ -7,7 +7,7 @@ public enum Genre {
 	/**
 	 * This literal represents the genre sciencie fiction of a book.
 	 */
-	SCIENCIE_FICTION("Sciencie Fiction"),
+	SCIENCE_FICTION("Science Fiction"),
 	/**
 	 * This literal represents the genre fantasy of a book.
 	 */
@@ -15,7 +15,7 @@ public enum Genre {
 	/**
 	 * This literal represents the genre historical novel of a book.
 	 */
-	HISTORICAL_NOVEL("Historycal Novel");
+	HISTORICAL_NOVEL("Historical Novel");
 
 	/**
 	 * This attribute represents the name of the genre.

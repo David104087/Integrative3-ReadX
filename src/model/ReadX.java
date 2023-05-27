@@ -149,7 +149,7 @@ public class ReadX {
 		Genre bookGenre = null;
 
 		if ( genre == 1) {
-			bookGenre = Genre.SCIENCIE_FICTION;
+			bookGenre = Genre.SCIENCE_FICTION;
 		} 
 		else if (genre == 2) {
 			bookGenre = Genre.FANTASY;
@@ -162,7 +162,7 @@ public class ReadX {
 
 		products.add(book);
 
-		msg += "\nBook information:\n " + book.toString();
+		msg += "\nBook information:" + "\n" + book.toString();
 
 		return msg;
 	}
@@ -345,7 +345,7 @@ public class ReadX {
 					Category magazineCategory = null;
 
 					if (newStaus.equals("1" ) && product instanceof Book) {
-						bookGenre = Genre.SCIENCIE_FICTION;
+						bookGenre = Genre.SCIENCE_FICTION;
 					} else if (newStaus.equals("1") && product instanceof Magazine){
 						magazineCategory = Category.VARITIES;
 					}
@@ -426,7 +426,7 @@ public class ReadX {
 	
 		return msg;
 	}
-	
+		
 	/**
 	 * The function allows a user to purchase a book if they have enough funds and have not already
 	 * purchased 5 books (unless they are a premium user), and returns a message indicating the success or
@@ -455,6 +455,7 @@ public class ReadX {
 						msg = "Book " + book.getId() + " purchased successfully!!!" + "\n" + "Your new balance is: $ " + user.getBalance()
 						+ "\n" + invoice.toString();
 						book.setUnitsSold(1);
+						book.setTotalSales();
 
 						if (user instanceof RegularUser) {
 							( (RegularUser) user ).setBooksPurchased(1);
@@ -505,7 +506,9 @@ public class ReadX {
 						user.setBalance(user.getBalance() - magazine.getPrice());//subtract the price of the magazine to the user's balance
 						msg = "Magazine " + magazine.getId() + " suscribed successfully!!!" + "\n" + "Your new balance is: $ " + user.getBalance()
 						+ "\n" + invoice.toString();
-						magazine.setSubscriptions(1);
+
+						magazine.setUnitsSold(1);
+						magazine.setTotalSales();
 
 						if (user instanceof RegularUser) {
 							( (RegularUser) user ).setMagazinesSuscribed(1);
@@ -847,9 +850,9 @@ public class ReadX {
 	public String booksSoldByGenre() {
 		String msg = "";
 
-		int scienceFiction = 0;
-		int fantasy = 0;
-		int historicalNovel = 0;
+		double salesScienceFiction = 0;
+		double salesFantasy = 0;
+		double salesHistoricalNovel = 0;
 
 		int scienceFictionBooksSold = 0;
 		int fantasyBooksSold = 0;
@@ -858,30 +861,68 @@ public class ReadX {
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Book) {
 				Book book = (Book) products.get(i);
+
 				if ( book.getGenre().getName().equalsIgnoreCase("Science fiction") && book.getUnitsSold() > 0 ) {
-					scienceFiction++;
 					scienceFictionBooksSold += book.getUnitsSold();
+					salesScienceFiction += book.getTotalSales();
 				} else if ( book.getGenre().getName().equalsIgnoreCase("Fantasy") && book.getUnitsSold() > 0 ) {
-					fantasy++;
 					fantasyBooksSold += book.getUnitsSold();
-				} else if ( book.getGenre().getName().equalsIgnoreCase("Historical novel") && book.getUnitsSold() > 0 ) {
-					historicalNovel++;
+					salesFantasy += book.getTotalSales();
+				} else if ( book.getGenre().getName().equalsIgnoreCase("Historical Novel") && book.getUnitsSold() > 0 ) {
 					historicalNovelBooksSold += book.getUnitsSold();
+					salesHistoricalNovel += book.getTotalSales();
 				}
 			}
 		}
 
 		msg = "Books sold by genre: \n" + 
-		"- Science fiction: " + scienceFiction + "\n" + 
+		"- Science fiction: $ " + salesScienceFiction + "\n" + 
 		"Units sold: " + scienceFictionBooksSold + "\n" +
-		"- Fantasy: " + fantasy + "\n" + 
+		"- Fantasy: $ " + salesFantasy + "\n" + 
 		"Units sold: " + fantasyBooksSold + "\n" +
-		"- Historical novel: " + historicalNovel + "\n" +
+		"- Historical novel: $ " + salesHistoricalNovel + "\n" +
 		"Units sold: " + historicalNovelBooksSold + "\n";
 
 		return msg;
 	}
+	
+	public String magazinesSoldByCategory() {
+		String msg = "";
+
+		double salesVarities = 0;
+		double salesDesing = 0;
+		double salesScientific = 0;
+
+		int varitiesMagazinesSold = 0;
+		int desingMagazinesSold = 0;
+		int scientificMagazinesSold = 0;
+
+		for (int i = 0; i < products.size(); i++) {
+			if (products.get(i) instanceof Magazine) {
+				Magazine magazine = (Magazine) products.get(i);
+				if ( magazine.getCategory().getName().equalsIgnoreCase("Varities") && magazine.getUnitsSold() > 0 ) {
+					varitiesMagazinesSold += magazine.getUnitsSold();
+					salesVarities += magazine.getTotalSales();
+				} else if ( magazine.getCategory().getName().equalsIgnoreCase("Desing") && magazine.getUnitsSold() > 0 ) {
+					desingMagazinesSold += magazine.getUnitsSold();
+					salesDesing += magazine.getTotalSales();
+				} else if ( magazine.getCategory().getName().equalsIgnoreCase("Scientific") && magazine.getUnitsSold() > 0 ) {
+					scientificMagazinesSold += magazine.getUnitsSold();
+					salesScientific += magazine.getTotalSales();
+				}
+			}
+		}
 
 
+		msg = "Magazines sold by category: \n" +
+		"- Varities: $ " + salesVarities + "\n" +
+		"Active subscriptions: " + varitiesMagazinesSold + "\n" +
+		"- Desing: $ " + salesDesing + "\n" +
+		"Active subscriptions: " + desingMagazinesSold + "\n" +
+		"- Scientific: $ " + salesScientific + "\n" +
+		"Active Subscriptions: " + scientificMagazinesSold + "\n";
+
+		return msg;
+	}
 
 }

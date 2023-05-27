@@ -13,6 +13,9 @@ public abstract class BibliographicProduct {
 	 */
 	private String name;
 
+	/**
+	 * This attribute represents the id of the product.
+	 */
 	private String id;
 	/**
 	 * This attribute represents the number of pages of the product.
@@ -38,6 +41,14 @@ public abstract class BibliographicProduct {
 	 * This attribute represents the pages of the product.
 	 */
 	private String[] sheets;
+		
+	/**
+	 * This attribute represents the number of units sold of the product.
+	 */
+	private int unitsSold;
+
+	private double totalSales;
+
 
 
 	public BibliographicProduct(String name, int pages, Calendar publicationDate, String url, double price) {
@@ -165,6 +176,22 @@ public abstract class BibliographicProduct {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public int getUnitsSold() {
+		return this.unitsSold;
+	}
+
+	public void setUnitsSold(int unitSold) {
+		this.unitsSold += unitSold;
+	}
+
+	public double getTotalSales() {
+		return totalSales;
+	}
+
+	public void setTotalSales() {
+		this.totalSales = getPrice() * getUnitsSold();
 	}
 
 }
