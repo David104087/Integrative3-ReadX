@@ -45,7 +45,7 @@ public class ReadXSystem {
             view.menu(); 
             option = view.validateIntegerInput(); 
             view.executeOption(option);
-        }while(option != 9);
+        }while(option != 14);
 
 
         view.sc.close();
@@ -59,7 +59,7 @@ public class ReadXSystem {
 		System.out.println("--------------------------------------------");
 		System.out.println("Welcome to ReadX, please select an option:  ");
 		System.out.println("--------------------------------------------");
-		System.out.println("\n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) Exit \n(10) View total pages read \n(11) View most read genre and category \n(12) View top 5 of most read books and magazines	\n(13) Books sold by genre \n(14) Magazines subscribed by category \n Select an option:");
+		System.out.println("\n(0) Init ReadX \n(1) Register a new user \n(2) Register a new product \n(3) Modify a product \n(4) Delete a product \n(5) Buy a book \n(6) Suscribe to a magazine \n(7) Unsubscribe of a magazine \n(8) Library \n(9) View total pages read \n(10) View most read genre and category \n(11) View top 5 of most read books and magazines	\n(12) Books sold by genre \n(13) Magazines subscribed by category \n(14) Exit \n Select an option:");
 
 	}
 
@@ -99,22 +99,22 @@ public class ReadXSystem {
 				library(); 
 				break; 
 			case 9: 
-				System.out.println("Bye!"); 
+				viewTotalPagesRead();
 				break; 
 			case 10:
-				viewTotalPagesRead();
-				break;
-			case 11:
 				viewMostReadGenreAndCategory();
 				break;
-			case 12:
+			case 11:
 				viewTop5();
 				break;
-			case 13:
+			case 12:
 				booksSoldByGenre();
 				break;
+			case 13:
+				magazinesSoldByCategory();	
+				break;
 			case 14:
-				magazinesSoldByCategory();			
+				System.out.println("Bye!"); 		
 				break;
 			default: 
 				System.out.println("Invalid option"); 
@@ -409,6 +409,10 @@ public class ReadXSystem {
 	
 	}
 
+	/**
+	 * This function prompts the user to enter a user ID and allows them to navigate through a library
+	 * to access and read the products they have purchased.
+	 */
 	public void library() {
 		String userId = "";
 		String shelf = "";
@@ -437,26 +441,40 @@ public class ReadXSystem {
 
 	}
 
+	/**
+	 * This function prints the total number of pages read using the controller's viewTotalPagesRead
+	 * method.
+	 */
 	public void viewTotalPagesRead() {
 		System.out.println(controller.viewTotalPagesRead());
 	}
 
+	/**
+	 * This function prints the most read genre and category using a controller method.
+	 */
 	public void viewMostReadGenreAndCategory() {
 		System.out.println(controller.viewMostReadGenreAndCategory());
 	}
 
+	/**
+	 * This function prints a report of the top 5 most read books and magazines using a controller method.
+	 */
 	public void viewTop5() { 
 		System.out.println(controller.viewTop5());
 	}
 
+	/**
+	 * This function prints out the number of books sold by genre using a controller method.
+	 */
 	public void booksSoldByGenre() {
 		System.out.println(controller.booksSoldByGenre());
 	}
 
+	/**
+	 * This function prints out the number of magazines sold by category using a controller method.
+	 */
 	public void magazinesSoldByCategory() {
 		System.out.println(controller.magazinesSoldByCategory());
 	}
-
-
 
 }

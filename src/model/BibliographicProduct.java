@@ -12,7 +12,6 @@ public abstract class BibliographicProduct {
 	 * This attribute represents the name of the product.
 	 */
 	private String name;
-
 	/**
 	 * This attribute represents the id of the product.
 	 */
@@ -41,12 +40,13 @@ public abstract class BibliographicProduct {
 	 * This attribute represents the pages of the product.
 	 */
 	private String[] sheets;
-		
 	/**
 	 * This attribute represents the number of units sold of the product.
 	 */
 	private int unitsSold;
-
+	/**
+	 * This attribute represents the total sales of the product.
+	 */
 	private double totalSales;
 
 

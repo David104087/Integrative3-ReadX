@@ -30,6 +30,9 @@ public abstract class User {
 	 * This attribute represents the invoices of the user.
 	 */
 	private ArrayList<Invoice> invoices;
+	/**
+	 * This attribute represents the library of the user.
+	 */
 	private Library library;
 
 	public User(String name, String id, Calendar linkingDate, double balance) {
@@ -41,6 +44,14 @@ public abstract class User {
 		library = new Library();
 	}
 
+	/**
+	 * The function adds an invoice to the user.
+	 * 
+	 * @param invoice the invoice to be added to the user
+	 */
+	public void addInvocie(Invoice invoice) {
+		invoices.add(invoice);
+	}
 
 	/**
 	 * The function returns a string representation of the User with formatted name, ID, linking date, and
@@ -58,9 +69,6 @@ public abstract class User {
 		return "Name: " + this.name + "\nID: " + this.id + "\nLinking date: " + this.linkingDate.getTime() + "\n"
 				+ "Balance: " + formatDollars.format(this.balance);
 	}
-
-
-
 
 	public String getName() {
 		return this.name;
@@ -102,12 +110,5 @@ public abstract class User {
 		return this.library;
 	}
 
-	public void addInvocie(Invoice invoice) {
-		invoices.add(invoice);
-	}
-
-
-
-
-
+	
 }

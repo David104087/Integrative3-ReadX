@@ -586,6 +586,19 @@ public class ReadX {
 	}
 
 
+	/**
+	 * This function handles a reading session for a user on a specific product, allowing them to navigate
+	 * through the pages and displaying relevant information.
+	 * 
+	 * @param input A string representing the user's input, which can be "s" for next page, "a" for
+	 * previous page, or "b" for finish reading.
+	 * @param userId A string representing the unique identifier of the user who is currently reading a
+	 * book.
+	 * @param productId The ID of the bibliographic product being read in the current reading session.
+	 * @return A string message containing information about the reading session, including the current
+	 * page being read, the name and ID of the product being read, and options for navigating through the
+	 * pages. The message may also include advertising information.
+	 */
 	public String readingSession(String input, String userId, String productId) {
 		String msg = "";
 
@@ -603,10 +616,6 @@ public class ReadX {
 			String[][] shelf = shelfs.get(userLibrary.getCurrentShelf());
 			//get the id of the product in the selected cell
 			productId = shelf[y+1][x+1].substring(1,4);// add 1 to the x coordinate because the first row and column are the numbers of the rows and column
-			System.out.println("AQUIIIII " + productId);	
-			String idAntes = shelf[x+1][y+1];
-			System.out.println("AQUIIIII2222 " + idAntes);
-
 		} 
 
 		BibliographicProduct product = findProductById(productId);
@@ -640,9 +649,6 @@ public class ReadX {
 		msg += "\n" + pages[readingSession.getCurrentPage()] + " of " + pages.length + "\n";
 		msg += "\n (s) Next page \n (a) Previous page \n (b) Finish reading \n";
 	
-	
-		
-
 		return msg;
 	}
 
@@ -700,8 +706,15 @@ public class ReadX {
 
 	}
 
+	/**
+	 * This function calculates and returns the total number of pages read for books and magazines in the
+	 * list of products.
+	 * 
+	 * @return The method is returning a String report that contains the total number of pages read for
+	 * books and magazines in the products list.
+	 */
 	public String viewTotalPagesRead() {
-		String msg = "";
+		String report = "";
 		int totalPagesReadBooks = 0;
 		int totalPagesReadMagazines = 0;
 
@@ -713,14 +726,21 @@ public class ReadX {
 			} 
 		}
 
-		msg += "\n Total pages read: \n Books: " + totalPagesReadBooks + "\n Magazines: " + totalPagesReadMagazines + "\n";
+		report += "\n Total pages read: \n Books: " + totalPagesReadBooks + "\n Magazines: " + totalPagesReadMagazines + "\n";
 	
 
-		return msg;
+		return report;
 	}
 
+	/**
+	 * The function calculates and returns the most read genre and category of products in the list of
+	 * products, along with the number of pages read for each.
+	 * 
+	 * @return A report containing the most read genre and category, along with the number of pages read
+	 * for each.
+	 */
 	public String viewMostReadGenreAndCategory() { 
-		String msg = "";
+		String report = "";
 
 		String genreMostRead = ""; // name of the most read genre
 		String categoryMostRead = ""; // name of the most read category
@@ -786,15 +806,22 @@ public class ReadX {
 			categoryMostRead = "There is no most read category";
 		}
 
-		msg = "The genre most read is: " + genreMostRead + "\n" + "Pages read: " + pagesGenreMostRead + "\n" + 
+		report = "The genre most read is: " + genreMostRead + "\n" + "Pages read: " + pagesGenreMostRead + "\n" + 
 		"The category most read is: " + categoryMostRead + "\n" + "Pages read: " + pagesCategoryMostRead + "\n";
 
 
-		return msg;
+		return report;
 	}
 
+	/**
+	 * The function returns a report of the top 5 most read books and magazines, sorted by
+	 * pages read.
+	 * 
+	 * @return The method is returning a String that contains a report of the top 5 most read books and
+	 * magazines, including their name, pages read, and genre/category.
+	 */
 	public String viewTop5() {
-		String msg = "";
+		String report = "";
 
 		ArrayList<BibliographicProduct> top5Books = new ArrayList<BibliographicProduct>();
 
@@ -813,26 +840,36 @@ public class ReadX {
 		top5Books = bubbleSort(top5Books);// sort the books by pages read
 		top5Magazines = bubbleSort(top5Magazines); // sort the magazines by pages read
 
-		msg += "\n Top 5 most read books on the platform: \n";
+		report += "\n Top 5 most read books on the platform: \n";
 
 		for (int i = 0; i < top5Books.size() && i < 5; i++) {
-			msg += "\n" + (i+1) + ". " + top5Books.get(i).getName() + 
+			report += "\n" + (i+1) + ". " + top5Books.get(i).getName() + 
 			"\nPages read: " + top5Books.get(i).getPagesRead() + 
 			"\nGenre: " + ( (Book) top5Books.get(i) ).getGenre().getName() + "\n";
 		}
 
 
-		msg += "\n Top 5 most read magazines on the platform: \n";
+		report += "\n Top 5 most read magazines on the platform: \n";
 
 		for (int i = 0; i < top5Magazines.size() && i < 5; i++) {
-			msg += "\n" + (i+1) + ". " + top5Magazines.get(i).getName() + 
+			report += "\n" + (i+1) + ". " + top5Magazines.get(i).getName() + 
 			"\nPages read: " + top5Magazines.get(i).getPagesRead() +
 			"\nCategory: " + ( (Magazine) top5Magazines.get(i) ).getCategory().getName() + "\n";
 		}
 
-		return msg;
+		return report;
 	}
 
+	/**
+	 * This function implements bubble sort algorithm to sort the ArrayList of BibliographicProduct objects
+	 * based on their pages read in descending order.
+	 * 
+	 * @param products An ArrayList of BibliographicProduct objects that need to be sorted based on their
+	 * pagesRead attribute. The bubbleSort method uses a bubble sort algorithm to sort the products in
+	 * descending order of pagesRead.
+	 * @return The method is returning an ArrayList of BibliographicProduct objects that has been sorted in
+	 * descending order based on the number of pages read.
+	 */
 	public ArrayList<BibliographicProduct> bubbleSort(ArrayList<BibliographicProduct> products) {
 
 		for (int i = 0; i < products.size(); i++) {
@@ -847,8 +884,15 @@ public class ReadX {
 		return products;
 	}
 
+	/**
+	 * This function generates a report of books sold by genre, including the total sales and units sold
+	 * for each genre.
+	 * 
+	 * @return The method is returning a String report that contains the total sales and units sold for
+	 * each book genre (Science fiction, Fantasy, and Historical Novel).
+	 */
 	public String booksSoldByGenre() {
-		String msg = "";
+		String report = "";
 
 		double salesScienceFiction = 0;
 		double salesFantasy = 0;
@@ -875,7 +919,7 @@ public class ReadX {
 			}
 		}
 
-		msg = "Books sold by genre: \n" + 
+		report = "Books sold by genre: \n" + 
 		"- Science fiction: $ " + salesScienceFiction + "\n" + 
 		"Units sold: " + scienceFictionBooksSold + "\n" +
 		"- Fantasy: $ " + salesFantasy + "\n" + 
@@ -883,11 +927,18 @@ public class ReadX {
 		"- Historical novel: $ " + salesHistoricalNovel + "\n" +
 		"Units sold: " + historicalNovelBooksSold + "\n";
 
-		return msg;
+		return report;
 	}
 	
+	/**
+	 * This function generates a report of the total sales and active subscriptions for each category of
+	 * magazines sold.
+	 * 
+	 * @return The method is returning a String report that contains the total sales and active
+	 * subscriptions for each category of magazines sold.
+	 */
 	public String magazinesSoldByCategory() {
-		String msg = "";
+		String report = "";
 
 		double salesVarities = 0;
 		double salesDesing = 0;
@@ -913,8 +964,7 @@ public class ReadX {
 			}
 		}
 
-
-		msg = "Magazines sold by category: \n" +
+		report = "Magazines sold by category: \n" +
 		"- Varities: $ " + salesVarities + "\n" +
 		"Active subscriptions: " + varitiesMagazinesSold + "\n" +
 		"- Desing: $ " + salesDesing + "\n" +
@@ -922,7 +972,7 @@ public class ReadX {
 		"- Scientific: $ " + salesScientific + "\n" +
 		"Active Subscriptions: " + scientificMagazinesSold + "\n";
 
-		return msg;
+		return report;
 	}
 
 }
