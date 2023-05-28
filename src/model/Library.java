@@ -241,18 +241,19 @@ public class Library {
 	 * returns null.
 	 */
 	public BibliographicProduct findProductById(String productId) {
+		BibliographicProduct product = null;
 		for (int i = 0; i < products.size(); i++) {
 			if ((products).get(i) instanceof Magazine) {
 				if ( ( (Magazine) products.get(i) ).getId().equals(productId)) {
-					return products.get(i);
+					product = products.get(i);
 				}
 			} else {
 				if ( ( (Book) products.get(i) ).getId().equals(productId)) {
-					return products.get(i);
+					product = products.get(i);
 				}
 			} 
 		}
-		return null;
+		return product;
 	}
 
 	/**

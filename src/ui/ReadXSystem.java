@@ -307,18 +307,17 @@ public class ReadXSystem {
 	
 			if (controller.findProductByName(bookName) == null) {
 				System.out.println("The book does not exist");
-				return;//return to the main menu
-			}
-	
-			System.out.println("Book information: \n" + controller.findProductByName(bookName).toString() + "\n");
-			System.out.println("Want to buy this book? \n(1) Yes \n(2) No");
-			option = validateIntegerInput();
-	
-			if (option == 1) {
-				msg = controller.buyBook(userId, bookName);
-				System.out.println(msg);
 			} else {
-				System.out.println("The book was not purchased");
+				System.out.println("Book information: \n" + controller.findProductByName(bookName).toString() + "\n");
+				System.out.println("Want to buy this book? \n(1) Yes \n(2) No");
+				option = validateIntegerInput();
+		
+				if (option == 1) {
+					msg = controller.buyBook(userId, bookName);
+					System.out.println(msg);
+				} else {
+					System.out.println("The book was not purchased");
+				}
 			}
 
 			System.out.println("Want to buy another book? \n(1) Yes \n(2) No");
@@ -348,18 +347,17 @@ public class ReadXSystem {
 
 			if (controller.findProductByName(magazineId) == null) {
 				System.out.println("The magazine does not exist");
-				return;//return to the main menu
-			}
-
-			System.out.println("Magazine information: \n" + controller.findProductByName(magazineId).toString() + "\n");
-			System.out.println("Want to subscribe to this magazine? \n(1) Yes \n(2) No");
-			option = validateIntegerInput();
-
-			if (option == 1) {
-				msg = controller.subscribeToAMagazine(userId, magazineId);
-				System.out.println(msg);
 			} else {
-				System.out.println("The magazine was not subscribed");
+				System.out.println("Magazine information: \n" + controller.findProductByName(magazineId).toString() + "\n");
+				System.out.println("Want to subscribe to this magazine? \n(1) Yes \n(2) No");
+				option = validateIntegerInput();
+	
+				if (option == 1) {
+					msg = controller.subscribeToAMagazine(userId, magazineId);
+					System.out.println(msg);
+				} else {
+					System.out.println("The magazine was not subscribed");
+				}
 			}
 
 			System.out.println("Do you want to subscribe to another magazine? \n(1) Yes \n(2) No");

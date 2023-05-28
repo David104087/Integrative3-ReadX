@@ -36,12 +36,13 @@ public class ReadX {
 	 * otherwise it returns null.
 	 */
 	public User findUserById(String userId) { 
+		User user = null;
 		for (int i = 0; i < users.size(); i++) {
 			if (users.get(i).getId().equalsIgnoreCase(userId)) {
-				return users.get(i);
+				user = users.get(i);
 			}
 		}
-		return null;
+		return user;
 	}
 
 	/**
@@ -55,18 +56,19 @@ public class ReadX {
 	 * returns null.
 	 */
 	public BibliographicProduct findProductById(String productId) {
+		BibliographicProduct product = null;
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Magazine) {
 				if ( ( (Magazine) products.get(i) ).getId().equalsIgnoreCase(productId)) {
-					return products.get(i);
+					product = products.get(i);
 				}
 			} else {
 				if ( ( (Book) products.get(i) ).getId().equalsIgnoreCase(productId)) {
-					return products.get(i);
+					product = products.get(i);
 				}
 			} 
 		}
-		return null;
+		return product;
 	}
 	
 
@@ -81,18 +83,19 @@ public class ReadX {
 	 * with the specified name. If no product with the specified name is found, the method returns null.
 	 */
 	public BibliographicProduct findProductByName(String productName) {
+		BibliographicProduct product = null;
 		for (int i = 0; i < products.size(); i++) {
 			if (products.get(i) instanceof Magazine) {
 				if ( ( (Magazine) products.get(i) ).getName().equalsIgnoreCase(productName)) {
-					return products.get(i);
+					product = products.get(i);
 				}
 			} else {
 				if ( ( (Book) products.get(i) ).getName().equalsIgnoreCase(productName)) {
-					return products.get(i);
+					product = products.get(i);
 				}
 			} 
 		}
-		return null;
+		return product;
 	}
 
 	/**
@@ -695,7 +698,7 @@ public class ReadX {
 				}
 			}
 	
-			shelf += "\n" + "Shelf: " + (library.getCurrentShelf()+1);
+			shelf += "\n" + "Shelf: " + (library.getCurrentShelf()+1) + "\n";
 			shelf += library.showShelf() + "\n";
 			shelf += "\n (s) Next shelf \n (a) Previous shelf \n (e) Exit \n";
 			shelf += "\nPlease enter the product's id or coordinates x,y (ex: '2,4')to start a reading session: \n";
