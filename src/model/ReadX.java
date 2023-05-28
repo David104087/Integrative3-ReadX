@@ -695,7 +695,7 @@ public class ReadX {
 				}
 			}
 	
-			shelf += "\n" + "Shelf: " + (library.getCurrentShelf()+1) + " of " + library.getShelfs().size() + "\n";
+			shelf += "\n" + "Shelf: " + (library.getCurrentShelf()+1);
 			shelf += library.showShelf() + "\n";
 			shelf += "\n (s) Next shelf \n (a) Previous shelf \n (e) Exit \n";
 			shelf += "\nPlease enter the product's id or coordinates x,y (ex: '2,4')to start a reading session: \n";
