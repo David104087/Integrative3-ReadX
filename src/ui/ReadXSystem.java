@@ -8,7 +8,7 @@ import java.util.Scanner;
 import model.ReadX;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.regex.Matcher;
+import java.util.regex.Matcher; // to validate the date format
 import java.util.regex.Pattern;
 
 /**
